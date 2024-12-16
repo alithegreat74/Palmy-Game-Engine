@@ -1,6 +1,5 @@
 workspace "Palmy"
     configurations { "Debug", "Release" }
-    location "build"
     toolset("gcc")
 
 project "Palmy"
@@ -8,6 +7,9 @@ project "Palmy"
     architecture "x64"
     language "C++"
     files { "Palmy/src/**.h", "Palmy/src/**.cpp" }
+
+    filter {"system:Windows"}
+        defines {"WINDOWS"}
 
     filter { "configurations:Debug" }
         defines { "DEBUG" }
@@ -22,7 +24,11 @@ project "Sandbox"
     architecture "x64"
     language "C++"
     files { "Sandbox/src/**.h", "Sandbox/src/**.cpp" }
-    includedirs {"Palmy/src"}
+    includedirs {"Palmy"}
+    links {"Palmy"}
+
+    filter {"system:Windows"}
+        defines {"WINDOWS"}
     filter { "configurations:Debug" }
         defines { "DEBUG" }
         symbols "On"
