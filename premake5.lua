@@ -7,7 +7,13 @@ project "Palmy"
     architecture "x64"
     language "C++"
     files { "Palmy/src/**.h", "Palmy/src/**.cpp" }
+    includedirs {
+        "Thirdparty/spdlog/include"
+    }
+    cppdialect "C++20"
 
+    filter "action:vs*"
+        buildoptions { "/utf-8" }
     filter {"system:Windows"}
         defines {"WINDOWS"}
 
@@ -23,10 +29,16 @@ project "Sandbox"
     kind "ConsoleApp"
     architecture "x64"
     language "C++"
+    cppdialect "C++20"
     files { "Sandbox/src/**.h", "Sandbox/src/**.cpp" }
-    includedirs {"Palmy"}
+    includedirs {
+        "Palmy",
+        "Thirdparty/spdlog/include"
+    }
     links {"Palmy"}
 
+    filter "action:vs*"
+        buildoptions { "/utf-8" }
     filter {"system:Windows"}
         defines {"WINDOWS"}
     filter { "configurations:Debug" }
