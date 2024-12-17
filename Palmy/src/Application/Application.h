@@ -5,11 +5,11 @@ namespace Palmy {
 
 	class Application {
 	public:
-		Application();
+		Application(const std::string& applicationName = "");
 		virtual ~Application();
 		virtual void Run();
 	private:
-		Window m_Window;
+		std::unique_ptr<Window> m_Window;
 	};
 
 	Application* Create();

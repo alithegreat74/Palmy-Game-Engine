@@ -1,17 +1,25 @@
 workspace "Palmy"
     configurations { "Debug", "Release" }
     toolset("gcc")
+    architecture "x64"
+    startproject "Sandbox"
+
+include "Palmy/Thirdparty/glfw"
 
 project "Palmy"
     kind "StaticLib"
-    architecture "x64"
     language "C++"
     files { "Palmy/src/**.h", "Palmy/src/**.cpp" }
-    includedirs {
-        "Thirdparty/spdlog/include"
-    }
     cppdialect "C++20"
-
+    
+    includedirs {
+        "Palmy/src",
+        "Thirdparty/spdlog/include",
+        "Palmy/Thirdparty/glfw/include"
+    }
+    links {
+        "GLFW"
+    }
     filter "action:vs*"
         buildoptions { "/utf-8" }
     filter {"system:Windows"}
@@ -27,15 +35,18 @@ project "Palmy"
 
 project "Sandbox"
     kind "ConsoleApp"
-    architecture "x64"
     language "C++"
     cppdialect "C++20"
     files { "Sandbox/src/**.h", "Sandbox/src/**.cpp" }
     includedirs {
         "Palmy",
-        "Thirdparty/spdlog/include"
+        "Thirdparty/spdlog/include",
+        "Palmy/Thirdparty/glfw/include"
     }
-    links {"Palmy"}
+    links {
+        "Palmy",
+        "GLFW"
+    }
 
     filter "action:vs*"
         buildoptions { "/utf-8" }

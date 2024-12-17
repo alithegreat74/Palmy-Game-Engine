@@ -16,12 +16,12 @@ namespace Palmy {
 		inline static std::shared_ptr<spdlog::logger> s_ClientLogger = nullptr;
 	};
 
-#define ENGINE_LOG(...) Log::GetEngineLogger()->info(__VA_ARGS__);
-#define ENGINE_WARNING(...) Log::GetEngineLogger()->warn(__VA_ARGS__);
-#define ENGINE_ERROR(...) Log::GetEngineLogger()->error(__VA_ARGS__);
-
-#define CLIENT_LOG(...) Log::GetClientLogger()->info(__VA_ARGS__);
-#define CLIENT_WARNING(...) Log::GetClientLogger()->warn(__VA_ARGS__);
-#define CLIENT_ERROR(...) Log::GetClientLogger()->error(__VA_ARGS__);
 
 }
+#define ENGINE_LOG(...) Palmy::Log::GetEngineLogger()->info(__VA_ARGS__);
+#define ENGINE_WARNING(...) Palmy::Log::GetEngineLogger()->warn(__VA_ARGS__);
+#define ENGINE_ERROR(...) Palmy::Log::GetEngineLogger()->error(__VA_ARGS__);
+
+#define CLIENT_LOG(...) Palmy::Log::GetClientLogger()->info(__VA_ARGS__);
+#define CLIENT_WARNING(...) Palmy::Log::GetClientLogger()->warn(__VA_ARGS__);
+#define CLIENT_ERROR(...) Palmy::Log::GetClientLogger()->error(__VA_ARGS__);
