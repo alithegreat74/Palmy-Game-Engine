@@ -1,6 +1,8 @@
 #include "Window.h"
 #include "Core/Log.h"
 #include "Core/Core.h"
+#include <functional>
+
 
 namespace Palmy {
 	Window::Window(const WindowInfo& info):
@@ -26,11 +28,18 @@ namespace Palmy {
 		ENGINE_ASSERT(glfwInit(), "Failed to initialize glfw");
 		m_Window = glfwCreateWindow(info.Width, info.Height, info.Name.c_str(), NULL, NULL);
 
+		glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
+			WindowResizedEvent e{(float)width, (float)height};
+		
+			BIND_EVENT_FUNCTION(WindowsWindow::OnWindowResize, WindowResizedEvent, e);
+		});
+
 	}
 	WindowsWindow::~WindowsWindow()
 	{
 		glfwDestroyWindow(m_Window);
 		glfwTerminate();
+		
 	}
 	void WindowsWindow::Update()
 	{
@@ -39,5 +48,10 @@ namespace Palmy {
 			glfwPollEvents();
 			glfwSwapBuffers(m_Window);
 		}
+	}
+	bool WindowsWindow::OnWindowResize(const WindowResizedEvent& e)
+	{
+		ENGINE_LOG(e.ToString());
+		return true;
 	}
 }

@@ -2,6 +2,7 @@
 #include <memory>
 #include <iostream>
 #include <GLFW/glfw3.h>
+#include "../Event/WindowEvent.h"
 
 namespace Palmy {
 	struct WindowInfo
@@ -34,6 +35,7 @@ namespace Palmy {
 		WindowsWindow(const WindowInfo& info);
 		~WindowsWindow()override;
 		virtual void Update()override;
+		static bool OnWindowResize(const WindowResizedEvent& e);
 	private:
 		GLFWwindow* m_Window;
 	};

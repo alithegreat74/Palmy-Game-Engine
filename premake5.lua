@@ -9,7 +9,11 @@ include "Palmy/Thirdparty/glfw"
 project "Palmy"
     kind "StaticLib"
     language "C++"
-    files { "Palmy/src/**.h", "Palmy/src/**.cpp" }
+    files { 
+        "Palmy/src/**.h",
+        "Palmy/src/**.cpp",
+        "Palmy/Palmy.h"
+    }
     cppdialect "C++20"
     
     includedirs {
