@@ -7,4 +7,6 @@
 #include "src/Event/KeyEvent.h"
 #include "src/Event/WindowEvent.h"
 #include "src/Event/MouseEvent.h"
+#include "src/Layer/Layer.h"
+#include "src/Event/Event.h"
 #include "src/Core/EntryPoint.h"

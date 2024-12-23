@@ -9,4 +9,5 @@
 
 #define ENGINE_ASSERT(X,...) if(!X){ENGINE_ERROR(__VA_ARGS__);__debugbreak;}
 
-#define BIND_EVENT_FUNCTION(FUNC,TYPE,EVENT) EventHandler::Handle<TYPE>([&](const TYPE& event) { return FUNC(event); },EVENT);
+#define ENGINE_BIND(X) std::bind(&X,std::placeholders::_1)
+#define ENGINE_BIND(X,I) std::bind(&X,I,std::placeholders::_1)

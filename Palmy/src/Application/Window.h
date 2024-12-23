@@ -5,6 +5,9 @@
 #include "../Event/WindowEvent.h"
 
 namespace Palmy {
+
+	using EventCallbackFunction = std::function<void(Event&)>;
+
 	struct WindowInfo
 	{
 		std::string Name;
@@ -21,9 +24,11 @@ namespace Palmy {
 	public:
 		Window(const WindowInfo& info);
 		virtual ~Window();
+		virtual void SetEventCallback(const EventCallbackFunction& callbackFunction) = 0;
 		static std::unique_ptr<Window>Create(const WindowInfo& info = WindowInfo());
 		virtual void Update() = 0;
 	protected:
+
 		WindowInfo m_WindowInfo;
 	};
 
@@ -34,9 +39,17 @@ namespace Palmy {
 	public:
 		WindowsWindow(const WindowInfo& info);
 		~WindowsWindow()override;
+		virtual void SetEventCallback(const EventCallbackFunction& callbackFunction)override { m_WindowData.CallbackFunction = callbackFunction; }
 		virtual void Update()override;
 		static bool OnWindowResize(const WindowResizedEvent& e);
 	private:
+		struct WindowData
+		{
+			float Width, Height;
+			std::string Name;
+			EventCallbackFunction CallbackFunction;
+		};
+		WindowData m_WindowData;
 		GLFWwindow* m_Window;
 	};
 }

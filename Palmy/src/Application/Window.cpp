@@ -28,11 +28,17 @@ namespace Palmy {
 		ENGINE_ASSERT(glfwInit(), "Failed to initialize glfw");
 		m_Window = glfwCreateWindow(info.Width, info.Height, info.Name.c_str(), NULL, NULL);
 
+		m_WindowData.Width = info.Width;
+		m_WindowData.Height = info.Height;
+		m_WindowData.Name = info.Name;
+
+		glfwSetWindowUserPointer(m_Window, &m_WindowData);
+
 		glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
 			WindowResizedEvent e{(float)width, (float)height};
-		
-			BIND_EVENT_FUNCTION(WindowsWindow::OnWindowResize, WindowResizedEvent, e);
-		});
+			WindowData* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+			data->CallbackFunction(e);
+			});
 
 	}
 	WindowsWindow::~WindowsWindow()

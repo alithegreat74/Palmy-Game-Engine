@@ -12,7 +12,7 @@ namespace Palmy {
 	};
 	enum EventType
 	{
-		MouseMoved, MouseClick, MouseResized,
+		MouseMoved, MouseClick, MouseScroll,
 		WindowResized,WindowClosed,
 		KeyPressed,KeyReleased
 	};
