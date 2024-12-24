@@ -16,7 +16,7 @@ namespace Palmy {
 			return "Window Resized To {" + std::to_string(m_Width) + ", " + std::to_string(m_Height) + "}";
 		}
 		static EventType GetStaticEventType() { return EventType::WindowResized; }
-	private:
+	public:
 		float m_Width, m_Height;
 	};
 	

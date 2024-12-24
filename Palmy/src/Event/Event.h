@@ -27,14 +27,16 @@ namespace Palmy {
 	private:
 	};
 
+	template<typename T>
+	using EventFunction = std::function<bool(const T&)>;
 
 	class EventHandler {
 	public:
 		EventHandler() = delete;
 		template<typename T>
-		static bool Handle(std::function<bool(const T&)> function, T& e)
+		static bool Handle(const EventFunction<T>& function, Event& e)
 		{
-			e.m_Handled |= function(e);
+			e.m_Handled |= function(static_cast<T&>(e));
 			return true;
 		}
 	};
