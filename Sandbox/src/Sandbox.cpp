@@ -19,7 +19,7 @@ namespace Sandbox {
 
 		}
 		virtual void OnEvent(Palmy::Event& event) {
-			Palmy::EventHandler::Handle<Palmy::WindowResizedEvent>(ENGINE_BIND(ExampleLayer::OnWindowResized,this),event);
+			Palmy::EventHandler::Handle<Palmy::WindowResizedEvent>(ENGINE_BIND(ExampleLayer::OnWindowResized),event);
 		}
 
 		bool OnWindowResized(const Palmy::WindowResizedEvent& event) {
