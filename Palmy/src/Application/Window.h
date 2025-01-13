@@ -3,6 +3,8 @@
 #include <iostream>
 #include <GLFW/glfw3.h>
 #include "../Event/WindowEvent.h"
+#include "../Event/MouseEvent.h"
+#include "../Event/KeyEvent.h"
 
 namespace Palmy {
 
@@ -27,6 +29,7 @@ namespace Palmy {
 		virtual void SetEventCallback(const EventCallbackFunction& callbackFunction) = 0;
 		static std::unique_ptr<Window>Create(const WindowInfo& info = WindowInfo());
 		virtual void Update() = 0;
+		virtual bool ShouldWindowClose() = 0;
 	protected:
 
 		WindowInfo m_WindowInfo;
@@ -42,6 +45,7 @@ namespace Palmy {
 		virtual void SetEventCallback(const EventCallbackFunction& callbackFunction)override { m_WindowData.CallbackFunction = callbackFunction; }
 		virtual void Update()override;
 		static bool OnWindowResize(const WindowResizedEvent& e);
+		virtual bool ShouldWindowClose() { return !glfwWindowShouldClose(m_Window); }
 	private:
 		struct WindowData
 		{

@@ -36,6 +36,9 @@ namespace Palmy {
 		template<typename T>
 		static bool Handle(const EventFunction<T>& function, Event& e)
 		{
+			if (e.GetEventType() != T::GetStaticEventType())
+				return false;
+
 			e.m_Handled |= function(static_cast<T&>(e));
 			return true;
 		}

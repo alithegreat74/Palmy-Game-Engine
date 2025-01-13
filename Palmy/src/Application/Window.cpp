@@ -2,6 +2,7 @@
 #include "Core/Log.h"
 #include "Core/Core.h"
 #include <functional>
+#include "Input.h"
 
 
 namespace Palmy {
@@ -40,6 +41,22 @@ namespace Palmy {
 			data->CallbackFunction(e);
 			});
 
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+			if (action == GLFW_PRESS)
+			{
+				KeyPressedEvent e(key);
+				WindowData* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+				data->CallbackFunction(e);
+			}
+			else if (action == GLFW_RELEASE)
+			{
+				KeyReleasedEvent e(key);
+				WindowData* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+				data->CallbackFunction(e);
+			}
+			});
+
+		Input::Init(m_Window);
 	}
 	WindowsWindow::~WindowsWindow()
 	{
@@ -49,11 +66,8 @@ namespace Palmy {
 	}
 	void WindowsWindow::Update()
 	{
-		while (!glfwWindowShouldClose(m_Window))
-		{
-			glfwPollEvents();
-			glfwSwapBuffers(m_Window);
-		}
+		glfwPollEvents();
+		glfwSwapBuffers(m_Window);
 	}
 	bool WindowsWindow::OnWindowResize(const WindowResizedEvent& e)
 	{

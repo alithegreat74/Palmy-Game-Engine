@@ -10,12 +10,14 @@ namespace Palmy {
 		{
 
 		}
+		inline virtual int GetKey()const { return m_KeyCode; }
 		virtual EventCategory GetCategory()const override { return EventCategory::KeyEvent; }
 	protected:
 		int m_KeyCode;
 	};
 
 	class KeyPressedEvent:public KeyEvent {
+	public:
 		KeyPressedEvent(int keycode) :
 			KeyEvent(keycode) {}
 
@@ -27,6 +29,7 @@ namespace Palmy {
 	};
 
 	class KeyReleasedEvent :public KeyEvent {
+	public:
 		KeyReleasedEvent(int keycode) :
 			KeyEvent(keycode) {}
 
