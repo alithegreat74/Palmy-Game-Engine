@@ -9,6 +9,10 @@ include "Palmy/Thirdparty/glfw"
 project "Palmy"
     kind "StaticLib"
     language "C++"
+
+    pchheader "pch.h"
+    pchsource "Palmy/src/pch.cpp"
+
     files { 
         "Palmy/src/**.h",
         "Palmy/src/**.cpp",
