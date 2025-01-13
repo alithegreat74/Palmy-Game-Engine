@@ -7,3 +7,5 @@ obj/
 *.make
 Makefile
 *.filters
+/build
+/out

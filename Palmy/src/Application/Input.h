@@ -2,7 +2,6 @@
 #include <unordered_map>
 #include "../Event/KeyEvent.h"
 #include "../Event/MouseEvent.h"
-#include <glm/glm.hpp>
 #include "KeyCodes.h"
 namespace Palmy
 {
@@ -20,7 +19,6 @@ namespace Palmy
 		//Mouse Inputs
 		static bool GetMouseButtonDown(KeyCode buttonCode);
 		static bool GetMouseButtonUp(KeyCode buttonCode);
-		static glm::vec2 GetMousePosition();
 	private:
 		inline static void* s_Window;
 	};

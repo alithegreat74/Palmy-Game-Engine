@@ -31,12 +31,4 @@ namespace Palmy
 		int state = glfwGetMouseButton(static_cast<GLFWwindow*>(s_Window), buttonCode);
 		return state == GLFW_RELEASE;
 	}
-	//TODO: Create a way for user the get the mouse delta
-	glm::vec2 Input::GetMousePosition()
-	{
-		double xPos, yPos;
-		glfwGetCursorPos(static_cast<GLFWwindow*>(s_Window), &xPos, &yPos);
-		return glm::vec2({ xPos,yPos });
-	}
-	
 }
