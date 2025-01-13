@@ -2,7 +2,6 @@
 #include "Window.h"
 #include "Core/Log.h"
 #include "Core/Core.h"
-#include <functional>
 #include "Input.h"
 
 
