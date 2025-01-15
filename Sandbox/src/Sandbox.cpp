@@ -1,8 +1,12 @@
 #include <memory>
 #include "Palmy.h"
+#include <fstream>
 
 
 namespace Sandbox {
+
+	
+
 	class ExampleLayer :public Palmy::Layer {
 	public:
 		ExampleLayer(const std::string& layerName = "New Layer"):
@@ -13,9 +17,13 @@ namespace Sandbox {
 		~ExampleLayer(){}
 
 		virtual void OnAttach() {
-
+			
+			
 		}
 		virtual void OnUpdate() {
+				
+			
+
 		}
 		virtual void OnEvent(Palmy::Event& event) {
 			Palmy::EventHandler::Handle<Palmy::WindowResizedEvent>(ENGINE_BIND(ExampleLayer::OnWindowResized),event);

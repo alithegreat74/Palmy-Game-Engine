@@ -13,6 +13,7 @@ include_directories(
     "${CMAKE_SOURCE_DIR}/Palmy"
     "${CMAKE_SOURCE_DIR}/Thirdparty/spdlog/include"
     "${CMAKE_SOURCE_DIR}/Palmy/Thirdparty/glfw/include"
+    "${CMAKE_SOURCE_DIR}/Palmy/Thirdparty/glad/include"
 )
 
 if (WIN32)

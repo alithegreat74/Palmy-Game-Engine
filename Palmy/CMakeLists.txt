@@ -10,14 +10,16 @@ file(GLOB_RECURSE SRC_FILES "${SRC_DIR}/*.cpp" "${SRC_DIR}/*.h")
 add_library(Engine ${SRC_FILES})
 
 add_subdirectory(${CURRENT_DIR}/Thirdparty/glfw)
+add_subdirectory(${CURRENT_DIR}/Thirdparty/glad)
 
 include_directories(
     "${SRC_DIR}"
     "${CURRENT_DIR}/Thirdparty/glfw/include"
+    "${CURRENT_DIR}/Thirdparty/glad/include"
     "${CMAKE_SOURCE_DIR}/Thirdparty/spdlog/include"
 )
 
-target_link_libraries(Engine PRIVATE glfw)
+target_link_libraries(Engine PUBLIC glfw glad)
 
 target_include_directories(Engine PRIVATE ${SRC_DIR})
 

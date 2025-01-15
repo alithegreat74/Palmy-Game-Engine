@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "../Core/Core.h"
 #include "Input.h"
+
 namespace Palmy {
 	Application::Application(const std::string& applicationName)
 	{
