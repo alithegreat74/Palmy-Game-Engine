@@ -1,0 +1,36 @@
+name: Run CMake with Multiple Compilers
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: [windows, self-hosted]
+
+    strategy:
+      matrix:
+        compiler: ["Visual Studio 17 2022", "MinGW Makefiles"]
+        build_type: ["Release", "Debug"]
+
+    env:
+      # Use matrix variables to customize the CMake build type and compiler
+      BUILD_TYPE: ${{ matrix.build_type }}
+      COMPILER: ${{ matrix.compiler }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure CMake
+        # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+        run: |
+          cmake -G "${{ env.COMPILER }}" -B build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+
+      - name: Build
+        # Build your program with the given configuration
+        run: |
+          cmake --build build --config ${{ env.BUILD_TYPE }}
