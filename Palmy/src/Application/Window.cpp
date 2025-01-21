@@ -7,23 +7,6 @@
 
 
 namespace Palmy {
-	//TODO: read shaders from a seperate file
-	constexpr const char* DEFAULT_VERTEX_SHADER =
-		R"(#version 330 core
-			layout (location = 0) in vec2 aPos;
-			void main()
-			{
-				gl_Position = vec4(aPos,0.0, 1.0);
-			})";
-	constexpr const char* DEFAULT_FRAGMENT_SHADER =
-		R"(#version 330 core
-			out vec4 FragColor;
-			void main()
-			{
-				FragColor = vec4(0.8,0.2,0.4,1.0);
-			}
-			)";
-
 	constexpr float VERTICIES[] = {
 		-0.5f,-0.5f,
 		 0.5f,-0.5f,
@@ -80,21 +63,13 @@ namespace Palmy {
 			});
 		Input::Init(m_Window);
 
+		Shader vertexShader("Assets/Shaders/QuadVertexShader.glsl", GL_VERTEX_SHADER);
+		Shader fragmentShader("Assets/Shaders/QuadFragmentShader.glsl", GL_FRAGMENT_SHADER);
+		
 
-		//TODO: Handle Shader loading in an seperate class
-		uint32_t vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShader, 1, &DEFAULT_VERTEX_SHADER, NULL);
-		glCompileShader(vertexShader);
-		uint32_t fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &DEFAULT_FRAGMENT_SHADER, NULL);
-		glCompileShader(fragmentShader);
-		m_Shader = glCreateProgram();
-		glAttachShader(m_Shader, vertexShader);
-		glAttachShader(m_Shader, fragmentShader);
-		glLinkProgram(m_Shader);
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
-
+		m_Shader = std::make_shared<ShaderProgram>(vertexShader, fragmentShader);
+	
+		
 		//TODO: Handle Vertex Buffer and Vertex Array and Index Buffer in a seperate class
 		glCreateVertexArrays(1, &m_VertexArray);
 		glBindVertexArray(m_VertexArray);
@@ -118,11 +93,11 @@ namespace Palmy {
 	{
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glClear(GL_COLOR_BUFFER_BIT);
-		glUseProgram(m_Shader);
+		m_Shader->Bind();
 		glBindVertexArray(m_VertexArray);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glBindVertexArray(0);
-		glUseProgram(0);
+		m_Shader->Unbind();
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
 	}

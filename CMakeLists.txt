@@ -12,9 +12,12 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -g")
 endif()
 
+# Add subdirectories
 add_subdirectory(${CMAKE_SOURCE_DIR}/Palmy)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Sandbox)
 
+# Set the startup project for Visual Studio
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Sandbox)
 
+# Link Sandbox to the Engine library
 target_link_libraries(Sandbox PRIVATE Engine)

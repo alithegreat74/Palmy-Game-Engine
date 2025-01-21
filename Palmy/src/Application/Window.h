@@ -6,6 +6,7 @@
 #include "../Event/WindowEvent.h"
 #include "../Event/MouseEvent.h"
 #include "../Event/KeyEvent.h"
+#include "../Rendering/Shader.h"
 
 namespace Palmy {
 
@@ -56,7 +57,7 @@ namespace Palmy {
 		};
 		WindowData m_WindowData;
 		GLFWwindow* m_Window;
-		uint32_t m_Shader;
+		std::shared_ptr<ShaderProgram> m_Shader;
 		uint32_t m_VertexArray;
 	};
 }
