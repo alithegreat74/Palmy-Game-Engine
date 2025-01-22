@@ -10,7 +10,12 @@ namespace Palmy {
 	constexpr float VERTICIES[] = {
 		-0.5f,-0.5f,
 		 0.5f,-0.5f,
-		 0.0f, 0.5f
+		 0.5f, 0.5f,
+
+		-0.5f,-0.5f,
+		 0.5f, 0.5f,
+		-0.5f, 0.5f
+
 	};
 	Window::Window(const WindowInfo& info):
 		m_WindowInfo(info)
@@ -69,19 +74,12 @@ namespace Palmy {
 
 		m_Shader = std::make_shared<ShaderProgram>(vertexShader, fragmentShader);
 	
-		
-		//TODO: Handle Vertex Buffer and Vertex Array and Index Buffer in a seperate class
-		glCreateVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
-		uint32_t vbo;
-		glCreateBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(VERTICIES), VERTICIES, GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 2, GL_FLOAT, false, 2 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
 
+		m_VertexArray = std::make_shared<VertexArray>();
+		m_VertexArray->Bind();
+		VertexBuffer vbo(VERTICIES, sizeof(VERTICIES), { { GL_FLOAT,2,2 * sizeof(float),false } });
+		vbo.Unbind();
+		m_VertexArray->Unbind();
 	}
 	WindowsWindow::~WindowsWindow()
 	{
@@ -94,9 +92,9 @@ namespace Palmy {
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glClear(GL_COLOR_BUFFER_BIT);
 		m_Shader->Bind();
-		glBindVertexArray(m_VertexArray);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glBindVertexArray(0);
+		m_VertexArray->Bind();
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		m_VertexArray->Unbind();
 		m_Shader->Unbind();
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
