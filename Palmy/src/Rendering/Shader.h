@@ -15,7 +15,7 @@ namespace Palmy {
 
 	class ShaderProgram {
 	public:
-		ShaderProgram(const Shader& vertexShader, const Shader& fragmentShader);
+		ShaderProgram(const char* vertexShaderPath, const char* fragmentShaderPath);
 		~ShaderProgram();
 		void Bind()const;
 		void Unbind()const;

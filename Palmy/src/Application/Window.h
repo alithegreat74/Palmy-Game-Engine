@@ -8,6 +8,7 @@
 #include "../Event/KeyEvent.h"
 #include "../Rendering/Shader.h"
 #include "../Rendering/Buffers.h"
+#include "../Rendering/Texture.h"
 
 namespace Palmy {
 
@@ -60,5 +61,6 @@ namespace Palmy {
 		GLFWwindow* m_Window;
 		std::shared_ptr<ShaderProgram> m_Shader;
 		std::shared_ptr<VertexArray> m_VertexArray;
+		std::shared_ptr<Texture2D> m_Texture;
 	};
 }

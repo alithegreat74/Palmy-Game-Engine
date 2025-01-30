@@ -8,13 +8,12 @@
 
 namespace Palmy {
 	constexpr float VERTICIES[] = {
-		-0.5f,-0.5f,
-		 0.5f,-0.5f,
-		 0.5f, 0.5f,
-
-		-0.5f,-0.5f,
-		 0.5f, 0.5f,
-		-0.5f, 0.5f
+		-0.5f,-0.5f, 0.0f, 0.0f,
+		 0.5f,-0.5f, 1.0f, 0.0f,
+		 0.5f, 0.5f, 1.0f, 1.0f,
+		 0.5f, 0.5f, 1.0f, 1.0f,
+		-0.5f, 0.5f, 0.0f, 1.0f,
+		-0.5f,-0.5f, 0.0f, 0.0f,
 
 	};
 	Window::Window(const WindowInfo& info):
@@ -67,17 +66,11 @@ namespace Palmy {
 			}
 			});
 		Input::Init(m_Window);
-
-		Shader vertexShader("Assets/Shaders/QuadVertexShader.glsl", GL_VERTEX_SHADER);
-		Shader fragmentShader("Assets/Shaders/QuadFragmentShader.glsl", GL_FRAGMENT_SHADER);
-		
-
-		m_Shader = std::make_shared<ShaderProgram>(vertexShader, fragmentShader);
-	
-
+		m_Shader = std::make_shared<ShaderProgram>("Assets/Shaders/QuadVertexShader.glsl", "Assets/Shaders/QuadFragmentShader.glsl");
+		m_Texture = std::make_shared<Texture2D>("Assets/Textures/Hardwood Floor.jpg");
 		m_VertexArray = std::make_shared<VertexArray>();
 		m_VertexArray->Bind();
-		VertexBuffer vbo(VERTICIES, sizeof(VERTICIES), { { GL_FLOAT,2,2 * sizeof(float),false } });
+		VertexBuffer vbo(VERTICIES, sizeof(VERTICIES), { { GL_FLOAT,2,2 * sizeof(float),false },{GL_FLOAT,2,2*sizeof(float),false}});
 		vbo.Unbind();
 		m_VertexArray->Unbind();
 	}
@@ -93,7 +86,9 @@ namespace Palmy {
 		glClear(GL_COLOR_BUFFER_BIT);
 		m_Shader->Bind();
 		m_VertexArray->Bind();
+		m_Texture->Bind();
 		glDrawArrays(GL_TRIANGLES, 0, 6);
+		m_Texture->Unbind();
 		m_VertexArray->Unbind();
 		m_Shader->Unbind();
 		glfwPollEvents();

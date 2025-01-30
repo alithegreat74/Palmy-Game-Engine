@@ -36,8 +36,10 @@ namespace Palmy {
 		ss << file.rdbuf();
 		return ss.str();
 	}
-	ShaderProgram::ShaderProgram(const Shader& vertexShader, const Shader& fragmentShader)
+	ShaderProgram::ShaderProgram(const char* vertexShaderPath, const char* fragmentShaderPath)
 	{
+		Shader vertexShader(vertexShaderPath, GL_VERTEX_SHADER);
+		Shader fragmentShader(fragmentShaderPath, GL_FRAGMENT_SHADER);
 		m_RendererId = glCreateProgram();
 		Bind();
 		glAttachShader(m_RendererId, vertexShader.GetId());

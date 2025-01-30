@@ -11,15 +11,16 @@ add_library(Engine ${SRC_FILES})
 
 add_subdirectory(${CURRENT_DIR}/Thirdparty/glfw)
 add_subdirectory(${CURRENT_DIR}/Thirdparty/glad)
-
+add_subdirectory(${CURRENT_DIR}/Thirdparty/stb_image)
 include_directories(
     "${SRC_DIR}"
     "${CURRENT_DIR}/Thirdparty/glfw/include"
     "${CURRENT_DIR}/Thirdparty/glad/include"
     "${CMAKE_SOURCE_DIR}/Thirdparty/spdlog/include"
+    "${CURRENT_DIR}/Thirdparty/stb_image"
 )
 
-target_link_libraries(Engine PUBLIC glfw glad)
+target_link_libraries(Engine PUBLIC glfw glad stb_image)
 
 target_include_directories(Engine PRIVATE ${SRC_DIR})
 
