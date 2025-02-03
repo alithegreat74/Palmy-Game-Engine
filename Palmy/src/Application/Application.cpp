@@ -3,7 +3,8 @@
 #include "../Core/Core.h"
 #include "Input.h"
 #include "../Core/Time.h"
-
+#include "ImGuiContext.h"
+#include <imgui.h>
 
 namespace Palmy {
 	Application::Application(const std::string& applicationName)
@@ -12,9 +13,8 @@ namespace Palmy {
 		m_Window->SetEventCallback(ENGINE_BIND(Application::OnEvent));
 		m_LayerStack = std::make_unique<LayerStack>();
 	}
-	void Application::Run()
-	{
-
+    void Application::Run()
+    {
 		while (m_Window->ShouldWindowClose())
 		{
 			m_Window->Update();

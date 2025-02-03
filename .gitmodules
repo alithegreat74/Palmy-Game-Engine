@@ -4,3 +4,7 @@
 [submodule "Palmy/Thirdparty/glfw"]
 	path = Palmy/Thirdparty/glfw
 	url = https://github.com/alithegreat74/glfw.git
+[submodule "Thirdparty/Imgui"]
+	path = Thirdparty/Imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking

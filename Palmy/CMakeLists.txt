@@ -6,8 +6,17 @@ set(CURRENT_DIR ${CMAKE_SOURCE_DIR}/Palmy)
 set(SRC_DIR ${CURRENT_DIR}/src)
 
 file(GLOB_RECURSE SRC_FILES "${SRC_DIR}/*.cpp" "${SRC_DIR}/*.h")
+file(GLOB IMGUI_FILES
+    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/*.cpp"
+    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/*.h"
+    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/backends/imgui_impl_opengl3_loader.h"
+    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/backends/imgui_impl_opengl3.h"
+    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/backends/imgui_impl_opengl3.cpp"
+    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/backends/imgui_impl_glfw.h"
+    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/backends/imgui_impl_glfw.cpp"
 
-add_library(Engine ${SRC_FILES})
+)
+add_library(Engine ${SRC_FILES} ${IMGUI_FILES})
 
 add_subdirectory(${CURRENT_DIR}/Thirdparty/glfw)
 add_subdirectory(${CURRENT_DIR}/Thirdparty/glad)
@@ -16,8 +25,9 @@ include_directories(
     "${SRC_DIR}"
     "${CURRENT_DIR}/Thirdparty/glfw/include"
     "${CURRENT_DIR}/Thirdparty/glad/include"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/spdlog/include"
     "${CURRENT_DIR}/Thirdparty/stb_image"
+    "${CMAKE_SOURCE_DIR}/Thirdparty/spdlog/include"
+    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui"
 )
 
 target_link_libraries(Engine PUBLIC glfw glad stb_image)

@@ -3,8 +3,9 @@
 #include "Core/Log.h"
 #include "Core/Core.h"
 #include "Input.h"
-
-
+#include "ImGuiContext.h"
+#include <imgui.h>
+#include "../Core/Time.h"
 
 namespace Palmy {
 	constexpr float VERTICIES[] = {
@@ -73,9 +74,12 @@ namespace Palmy {
 		VertexBuffer vbo(VERTICIES, sizeof(VERTICIES), { { GL_FLOAT,2,2 * sizeof(float),false },{GL_FLOAT,2,2*sizeof(float),false}});
 		vbo.Unbind();
 		m_VertexArray->Unbind();
+
+		ImGuiContext::Initialize(m_Window);
 	}
 	WindowsWindow::~WindowsWindow()
 	{
+		ImGuiContext::CleanUp();
 		glfwDestroyWindow(m_Window);
 		glfwTerminate();
 		
@@ -84,6 +88,13 @@ namespace Palmy {
 	{
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glClear(GL_COLOR_BUFFER_BIT);
+		ImGuiContext::BeginFrame();
+
+		{
+			ImGui::Begin("Statistics");
+			ImGui::Text("Frame rate is: %f", (1/Timer::DeltaTime));
+			ImGui::End();
+		}
 		m_Shader->Bind();
 		m_VertexArray->Bind();
 		m_Texture->Bind();
@@ -91,6 +102,7 @@ namespace Palmy {
 		m_Texture->Unbind();
 		m_VertexArray->Unbind();
 		m_Shader->Unbind();
+		ImGuiContext::EndFrame();
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
 	}

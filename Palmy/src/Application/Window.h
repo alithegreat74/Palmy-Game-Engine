@@ -34,8 +34,8 @@ namespace Palmy {
 		static std::unique_ptr<Window>Create(const WindowInfo& info = WindowInfo());
 		virtual void Update() = 0;
 		virtual bool ShouldWindowClose() = 0;
+		virtual void* GetWindowContext() = 0;
 	protected:
-
 		WindowInfo m_WindowInfo;
 	};
 
@@ -50,6 +50,7 @@ namespace Palmy {
 		virtual void Update()override;
 		static bool OnWindowResize(const WindowResizedEvent& e);
 		virtual bool ShouldWindowClose() { return !glfwWindowShouldClose(m_Window); }
+		virtual void* GetWindowContext()override{return m_Window;}
 	private:
 		struct WindowData
 		{
