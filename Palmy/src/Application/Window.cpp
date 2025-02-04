@@ -6,6 +6,7 @@
 #include "ImGuiContext.h"
 #include <imgui.h>
 #include "../Core/Time.h"
+#include <glm/glm.hpp>
 
 namespace Palmy {
 	constexpr float VERTICIES[] = {
@@ -15,7 +16,6 @@ namespace Palmy {
 		 0.5f, 0.5f, 1.0f, 1.0f,
 		-0.5f, 0.5f, 0.0f, 1.0f,
 		-0.5f,-0.5f, 0.0f, 0.0f,
-
 	};
 	Window::Window(const WindowInfo& info):
 		m_WindowInfo(info)
@@ -74,8 +74,9 @@ namespace Palmy {
 		VertexBuffer vbo(VERTICIES, sizeof(VERTICIES), { { GL_FLOAT,2,2 * sizeof(float),false },{GL_FLOAT,2,2*sizeof(float),false}});
 		vbo.Unbind();
 		m_VertexArray->Unbind();
-
 		ImGuiContext::Initialize(m_Window);
+
+		m_Shader->ChangeUniform("uPos", glm::vec2(0.5, 0.5));
 	}
 	WindowsWindow::~WindowsWindow()
 	{

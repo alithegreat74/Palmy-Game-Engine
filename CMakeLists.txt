@@ -15,9 +15,12 @@ endif()
 # Add subdirectories
 add_subdirectory(${CMAKE_SOURCE_DIR}/Palmy)
 add_subdirectory(${CMAKE_SOURCE_DIR}/Sandbox)
+add_subdirectory(${CMAKE_SOURCE_DIR}/Thirdparty/glm)
 
 # Set the startup project for Visual Studio
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Sandbox)
 
 # Link Sandbox to the Engine library
-target_link_libraries(Sandbox PRIVATE Engine)
+target_link_libraries(Engine PRIVATE glm)
+target_link_libraries(Sandbox PRIVATE Engine glm)
+

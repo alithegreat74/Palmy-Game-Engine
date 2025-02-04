@@ -21,6 +21,7 @@ add_library(Engine ${SRC_FILES} ${IMGUI_FILES})
 add_subdirectory(${CURRENT_DIR}/Thirdparty/glfw)
 add_subdirectory(${CURRENT_DIR}/Thirdparty/glad)
 add_subdirectory(${CURRENT_DIR}/Thirdparty/stb_image)
+
 include_directories(
     "${SRC_DIR}"
     "${CURRENT_DIR}/Thirdparty/glfw/include"
@@ -28,6 +29,7 @@ include_directories(
     "${CURRENT_DIR}/Thirdparty/stb_image"
     "${CMAKE_SOURCE_DIR}/Thirdparty/spdlog/include"
     "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui"
+    "${CMAKE_SOURCE_DIR}/Thirdparty/glm/glm"
 )
 
 target_link_libraries(Engine PUBLIC glfw glad stb_image)

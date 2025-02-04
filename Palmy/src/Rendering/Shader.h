@@ -1,4 +1,5 @@
 #pragma once
+#include <glm.hpp>
 
 namespace Palmy {
 	class Shader {
@@ -20,7 +21,8 @@ namespace Palmy {
 		void Bind()const;
 		void Unbind()const;
 		void ValidateProgram()const;
-
+		inline uint32_t GetUniformLocation(const char* uniformName)const;
+		void ChangeUniform(const char* uniformName, glm::vec2 value);
 	private:
 		uint32_t m_RendererId;
 	};

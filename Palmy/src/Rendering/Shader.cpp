@@ -71,4 +71,14 @@ namespace Palmy {
 			std::cout << log << std::endl;
 		}
 	}
+	uint32_t ShaderProgram::GetUniformLocation(const char* uniformName)const
+	{
+		return glGetUniformLocation(m_RendererId, uniformName);
+	}
+	void ShaderProgram::ChangeUniform(const char* uniformName, glm::vec2 value)
+	{
+		Bind();
+		glUniform2f(GetUniformLocation(uniformName), value.x, value.y);
+		Unbind();
+	}
 }
