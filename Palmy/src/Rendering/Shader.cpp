@@ -78,14 +78,10 @@ namespace Palmy {
 	}
 	void ShaderProgram::ChangeUniform(const char* uniformName, glm::vec2 value)
 	{
-		Bind();
 		glUniform2f(GetUniformLocation(uniformName), value.x, value.y);
-		Unbind();
 	}
 	void ShaderProgram::ChangeUniform(const char* uniformName, glm::mat4 value)
 	{
-		Bind();
 		glUniformMatrix4fv(GetUniformLocation(uniformName), 1, false, glm::value_ptr(value));
-		Unbind();
 	}
 }

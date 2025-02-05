@@ -65,5 +65,6 @@ namespace Palmy {
 		std::shared_ptr<VertexArray> m_VertexArray;
 		std::shared_ptr<Texture2D> m_Texture;
 		OrthoGraphicCamera m_OrthographicCamera;
+		CameraController m_CameraController;
 	};
 }

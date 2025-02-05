@@ -41,6 +41,7 @@ namespace Sandbox {
 			Palmy::Application("Sandbox")
 		{
 			m_LayerStack->AttachLayer(std::make_shared<ExampleLayer>("Example Layer"));
+
 		}
 	};
 }
