@@ -35,7 +35,8 @@ namespace Palmy {
 	}
 
 	WindowsWindow::WindowsWindow(const WindowInfo& info):
-		Window(info),m_Window(nullptr)
+		Window(info), m_Window(nullptr), 
+		m_OrthographicCamera({0.0f,0.0f,1.0f},{0.0f,0.0f,-1.0f},-2.0f,2.0f,2.0f,-2.0f,0.1f,10.0f)
 	{
 		ENGINE_ASSERT(glfwInit(), "Failed to initialize glfw");
 		m_Window = glfwCreateWindow(info.Width, info.Height, info.Name.c_str(), NULL, NULL);
@@ -75,8 +76,7 @@ namespace Palmy {
 		vbo.Unbind();
 		m_VertexArray->Unbind();
 		ImGuiContext::Initialize(m_Window);
-
-		m_Shader->ChangeUniform("uPos", glm::vec2(0.5, 0.5));
+		m_Shader->ChangeUniform("uCameraMatrix", m_OrthographicCamera.GetCameraMatrix());
 	}
 	WindowsWindow::~WindowsWindow()
 	{
@@ -90,7 +90,6 @@ namespace Palmy {
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glClear(GL_COLOR_BUFFER_BIT);
 		ImGuiContext::BeginFrame();
-
 		{
 			ImGui::Begin("Statistics");
 			ImGui::Text("Frame rate is: %f", (1/Timer::DeltaTime));

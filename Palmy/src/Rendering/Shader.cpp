@@ -2,6 +2,7 @@
 #include "Shader.h"
 #include <glad/glad.h>
 #include "../Core/Core.h"
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Palmy {
 	Shader::Shader(const char* filepath, uint32_t shaderTyp)
@@ -79,6 +80,12 @@ namespace Palmy {
 	{
 		Bind();
 		glUniform2f(GetUniformLocation(uniformName), value.x, value.y);
+		Unbind();
+	}
+	void ShaderProgram::ChangeUniform(const char* uniformName, glm::mat4 value)
+	{
+		Bind();
+		glUniformMatrix4fv(GetUniformLocation(uniformName), 1, false, glm::value_ptr(value));
 		Unbind();
 	}
 }
