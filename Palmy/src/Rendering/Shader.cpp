@@ -5,11 +5,14 @@
 #include <glm/gtc/type_ptr.hpp>
 
 namespace Palmy {
-	Shader::Shader(const char* filepath, uint32_t shaderTyp)
+	constexpr const char* VERTEX_SHADER_TOKEN = "PALMY_VERTEX_SHADER";
+	constexpr const char* FRAGMENT_SHADER_TOKEN = "PALMY_FRAGMENT_SHADER";
+
+	Shader::Shader(const char* filepath)
 	{
 		std::string shaderSource = ReadShaderSource(filepath);
 		const char* shaderSourceC = shaderSource.c_str();
-		m_RendererId = glCreateShader(shaderTyp);
+		m_RendererId = glCreateShader(m_ShaderType);
 		glShaderSource(m_RendererId, 1, &shaderSourceC, NULL);
 		glCompileShader(m_RendererId);
 		ValidateShader();
@@ -29,18 +32,42 @@ namespace Palmy {
 			std::cout << log << std::endl;
 		}
 	}
-	std::string Shader::ReadShaderSource(const char* filePath)const
+	std::string Shader::ReadShaderSource(const char* filePath)
 	{
 		std::ifstream file(filePath);
 		ENGINE_ASSERT(file.is_open(), "Unable to open file at {0}", filePath);
 		std::stringstream ss;
 		ss << file.rdbuf();
-		return ss.str();
+		std::string shaderSource = ss.str();
+
+	
+		if (shaderSource.find(VERTEX_SHADER_TOKEN) <= shaderSource.size())
+		{
+			m_ShaderType = GL_VERTEX_SHADER;
+		}
+		else if (shaderSource.find(FRAGMENT_SHADER_TOKEN) <= shaderSource.size())
+		{
+			m_ShaderType = GL_FRAGMENT_SHADER;
+		}
+		else {
+			ENGINE_ASSERT("Unknown Shader type at {0}", filePath);
+		}
+		return shaderSource;
 	}
 	ShaderProgram::ShaderProgram(const char* vertexShaderPath, const char* fragmentShaderPath)
 	{
-		Shader vertexShader(vertexShaderPath, GL_VERTEX_SHADER);
-		Shader fragmentShader(fragmentShaderPath, GL_FRAGMENT_SHADER);
+		Shader vertexShader(vertexShaderPath);
+		Shader fragmentShader(fragmentShaderPath);
+		m_RendererId = glCreateProgram();
+		Bind();
+		glAttachShader(m_RendererId, vertexShader.GetId());
+		glAttachShader(m_RendererId, fragmentShader.GetId());
+		glLinkProgram(m_RendererId);
+		ValidateProgram();
+		Unbind();
+	}
+	ShaderProgram::ShaderProgram(const Shader& vertexShader, const Shader& fragmentShader) 
+	{
 		m_RendererId = glCreateProgram();
 		Bind();
 		glAttachShader(m_RendererId, vertexShader.GetId());

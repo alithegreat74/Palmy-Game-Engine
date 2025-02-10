@@ -3,6 +3,8 @@
 #include <memory>
 #include "Window.h"
 #include "../Layer/LayerStack.h"
+#include "ResourceManager.h"
+
 namespace Palmy {
 
 	class Application {
@@ -15,6 +17,7 @@ namespace Palmy {
 	protected:
 		std::unique_ptr<Window> m_Window;
 		std::unique_ptr<LayerStack> m_LayerStack;
+		std::unique_ptr<ResourceManager> m_ResourceManager;
 	};
 
 	Application* Create();

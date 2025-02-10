@@ -13,4 +13,5 @@
 #include <fstream>
 #include <array>
 #include <sstream>
+#include <filesystem>
 #include "Core/Log.h"

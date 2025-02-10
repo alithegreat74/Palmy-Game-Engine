@@ -1,3 +1,4 @@
+//PALMY_FRAGMENT_SHADER
 #version 330 core
 out vec4 FragColor;
 in vec2 TextureCoordinates;
