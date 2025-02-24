@@ -7,6 +7,8 @@
 #include <imgui.h>
 #include "../Core/Time.h"
 #include <glm/glm.hpp>
+#include "../Rendering/Renderer2D.h"
+#include "../Rendering/RendererApi.h"
 
 namespace Palmy {
 	constexpr float VERTICIES[] = {
@@ -67,7 +69,7 @@ namespace Palmy {
 				WindowData* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 				data->CallbackFunction(e);
 			}
-			});
+		});
 		Input::Init(m_Window);
 		m_Shader = std::make_shared<ShaderProgram>("Assets/Shaders/QuadVertexShader.glsl", "Assets/Shaders/QuadFragmentShader.glsl");
 		m_Texture = std::make_shared<Texture2D>("Assets/Textures/Hardwood Floor.jpg");
@@ -87,8 +89,7 @@ namespace Palmy {
 	}
 	void WindowsWindow::Update()
 	{
-		glClearColor(0.0, 0.0, 0.0, 0.0);
-		glClear(GL_COLOR_BUFFER_BIT);
+		RendererApi::ClearColor(glm::vec4(0));
 		ImGuiContext::BeginFrame();
 		{
 			ImGui::Begin("Statistics");
@@ -98,14 +99,12 @@ namespace Palmy {
 		m_Shader->Bind();
 		m_Shader->ChangeUniform("uCameraMatrix", m_OrthographicCamera.GetCameraMatrix());
 		m_VertexArray->Bind();
-		m_Texture->Bind();
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		m_Texture->Unbind();
+		Renderer2D::RenderQuad(Transform2D(), *m_Shader, *m_Texture);
 		m_VertexArray->Unbind();
 		m_Shader->Unbind();
 		ImGuiContext::EndFrame();
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		RendererApi::SwapBuffers(m_Window);
 	}
 	bool WindowsWindow::OnWindowResize(const WindowResizedEvent& e)
 	{
