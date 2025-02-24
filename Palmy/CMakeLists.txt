@@ -56,3 +56,5 @@ foreach(config ${CMAKE_CONFIGURATION_TYPES})
     endif()
 endforeach()
 
+target_compile_definitions(Engine PRIVATE GLM_ENABLE_EXPERIMENTAL)
+
