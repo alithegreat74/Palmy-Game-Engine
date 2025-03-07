@@ -21,18 +21,20 @@ add_library(Engine ${SRC_FILES} ${IMGUI_FILES})
 add_subdirectory(${CURRENT_DIR}/Thirdparty/glfw)
 add_subdirectory(${CURRENT_DIR}/Thirdparty/glad)
 add_subdirectory(${CURRENT_DIR}/Thirdparty/stb_image)
+add_subdirectory(${CURRENT_DIR}/Thirdparty/yaml-cpp)
 
 include_directories(
     "${SRC_DIR}"
     "${CURRENT_DIR}/Thirdparty/glfw/include"
     "${CURRENT_DIR}/Thirdparty/glad/include"
     "${CURRENT_DIR}/Thirdparty/stb_image"
+    "${CURRENT_DIR}/Thirdparty/yaml-cpp/include"
     "${CMAKE_SOURCE_DIR}/Thirdparty/spdlog/include"
     "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui"
     "${CMAKE_SOURCE_DIR}/Thirdparty/glm/glm"
 )
 
-target_link_libraries(Engine PUBLIC glfw glad stb_image)
+target_link_libraries(Engine PUBLIC glfw glad stb_image yaml-cpp)
 
 target_include_directories(Engine PRIVATE ${SRC_DIR})
 

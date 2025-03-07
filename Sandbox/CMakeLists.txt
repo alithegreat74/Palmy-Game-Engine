@@ -16,6 +16,7 @@ include_directories(
     "${CMAKE_SOURCE_DIR}/Thirdparty/spdlog/include"
     "${CMAKE_SOURCE_DIR}/Palmy/Thirdparty/glfw/include"
     "${CMAKE_SOURCE_DIR}/Palmy/Thirdparty/glad/include"
+    "${CMAKE_SOURCE_DIR}/Palmy/Thirdparty/yaml-cpp/include"
     "${CMAKE_SOURCE_DIR}/Thirdparty/glm/glm"
 
 )
