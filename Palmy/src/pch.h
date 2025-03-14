@@ -14,3 +14,5 @@
 #include <array>
 #include <sstream>
 #include "Core/Log.h"
+#include <random>
+#include <cstdint>
