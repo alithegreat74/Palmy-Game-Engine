@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "AssetMetaGenerator.h"
 #include <yaml-cpp/yaml.h>
+#include "UUID.h"
 
 namespace Palmy {
 	constexpr const char* ASSETS_PATH = "Assets";
+	constexpr uint16_t LOOKUP_DELAY = 500;
 	AssetMetaGenerator::AssetMetaGenerator()
 		:m_LookUpFlag(true), m_MetaGenerationFunctions({ {"",FolderMeta}, {".png",TextureMeta},{".glsl",ShaderMeta},{".jpg",TextureMeta}})
 	{
@@ -19,7 +21,7 @@ namespace Palmy {
 		using namespace std::filesystem;
 		while (m_LookUpFlag)
 		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(500));
+			std::this_thread::sleep_for(std::chrono::milliseconds(LOOKUP_DELAY));
 			for (const auto& file : recursive_directory_iterator(ASSETS_PATH))
 			{
 				std::string extension = file.path().filename().extension().string();
@@ -41,12 +43,9 @@ namespace Palmy {
 	{
 		YAML::Emitter out;
 		out << YAML::BeginMap;
-		{
-			out << YAML::BeginMap;
-			out << YAML::Key << "Name" << YAML::Value << entry.path().filename().string().c_str();
-			out << YAML::Key << "Type" << YAML::Value << "Folder";
-			out << YAML::EndMap;
-		}
+		out << YAML::Key << "Id" << YAML::Value << UUID::CreateId();
+		out << YAML::Key << "Name" << YAML::Value << entry.path().filename().string().c_str();
+		out << YAML::Key << "Type" << YAML::Value << "Folder";
 		out << YAML::EndMap;
 		std::ofstream fout(entry.path().string() + ".meta");
 		fout << out.c_str();
@@ -55,12 +54,9 @@ namespace Palmy {
 	{
 		YAML::Emitter out;
 		out << YAML::BeginMap;
-		{
-			out << YAML::BeginMap;
-			out << YAML::Key << "Name" << YAML::Value << entry.path().filename().string().c_str();
-			out << YAML::Key << "Type" << YAML::Value << "Shader";
-			out << YAML::EndMap;
-		}
+		out << YAML::Key << "Id" << YAML::Value << UUID::CreateId();
+		out << YAML::Key << "Name" << YAML::Value << entry.path().filename().string().c_str();
+		out << YAML::Key << "Type" << YAML::Value << "Shader";
 		out << YAML::EndMap;
 		std::ofstream fout(entry.path().string() + ".meta");
 		fout << out.c_str();
@@ -69,12 +65,9 @@ namespace Palmy {
 	{
 		YAML::Emitter out;
 		out << YAML::BeginMap;
-		{
-			out << YAML::BeginMap;
-			out << YAML::Key << "Name" << YAML::Value << entry.path().filename().string().c_str();
-			out << YAML::Key << "Type" << YAML::Value << "Texture";
-			out << YAML::EndMap;
-		}
+		out << YAML::Key << "Id" << YAML::Value << UUID::CreateId();
+		out << YAML::Key << "Name" << YAML::Value << entry.path().filename().string().c_str();
+		out << YAML::Key << "Type" << YAML::Value << "Texture";
 		out << YAML::EndMap;
 		std::ofstream fout(entry.path().string() + ".meta");
 		fout << out.c_str();
