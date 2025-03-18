@@ -16,7 +16,8 @@ namespace Palmy {
 		stbi_image_free(data);
 	}
 
-	Texture::Texture()
+	Texture::Texture(uint32_t resourceId)
+		:m_ResourceId(resourceId)
 	{
 		glGenTextures(1,&m_RendererId);
 	}
@@ -26,8 +27,8 @@ namespace Palmy {
 		glDeleteTextures(1, &m_RendererId);
 	}
 
-	Texture2D::Texture2D(const char* filePath)
-		:Texture()
+	Texture2D::Texture2D(const char* filePath, uint32_t resourceId)
+		:Texture(resourceId)
 	{
 		TextureInfo info = TextureLoader::LoadTexture(filePath);
 
