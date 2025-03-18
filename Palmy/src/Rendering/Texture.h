@@ -15,16 +15,17 @@ namespace Palmy {
 	};
 	class Texture {
 	public:
-		Texture();
+		Texture(uint32_t resourceId);
 		virtual ~Texture();
 		virtual void Bind()const = 0;
 		virtual void Unbind()const = 0;
 	protected:
 		uint32_t m_RendererId;
+		uint32_t m_ResourceId;
 	};
 	class Texture2D:public Texture {
 	public:
-		Texture2D(const char* filePath);
+		Texture2D(const char* filePath, uint32_t resourceId = 0);
 		virtual void Bind()const override;
 		virtual void Unbind()const override;
 	};

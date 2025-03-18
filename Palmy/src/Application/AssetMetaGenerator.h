@@ -17,7 +17,6 @@ namespace Palmy {
 	private:
 		std::thread m_LookUpThread;
 		std::atomic<bool> m_LookUpFlag;
-		std::mutex m_LookUpMutex;
 		std::unordered_map<std::string, AssetMetaGenerationFunction> m_MetaGenerationFunctions;
 	};
 	void FolderMeta(const std::filesystem::directory_entry& entry);

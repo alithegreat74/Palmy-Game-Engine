@@ -2,6 +2,7 @@
 #include "AssetMetaGenerator.h"
 #include <yaml-cpp/yaml.h>
 #include "UUID.h"
+#include "ResourceLoader.h"
 
 namespace Palmy {
 	constexpr const char* ASSETS_PATH = "Assets";
@@ -21,6 +22,8 @@ namespace Palmy {
 		using namespace std::filesystem;
 		while (m_LookUpFlag)
 		{
+			//TODO: Instead of checking for changes every 5 secconds it's better to find out when the file is modified and handle 
+			//changes
 			std::this_thread::sleep_for(std::chrono::milliseconds(LOOKUP_DELAY));
 			for (const auto& file : recursive_directory_iterator(ASSETS_PATH))
 			{
@@ -28,7 +31,6 @@ namespace Palmy {
 				if (extension == ".meta" || exists(file.path().string() + ".meta"))
 					continue;
 
-				std::lock_guard<std::mutex> lock(m_LookUpMutex);
 				auto function = GetMetaGenerationFunction(file);
 				function(file);
 			}
@@ -49,6 +51,7 @@ namespace Palmy {
 		out << YAML::EndMap;
 		std::ofstream fout(entry.path().string() + ".meta");
 		fout << out.c_str();
+		fout.close();
 	}
 	void ShaderMeta(const std::filesystem::directory_entry& entry)
 	{
@@ -60,6 +63,7 @@ namespace Palmy {
 		out << YAML::EndMap;
 		std::ofstream fout(entry.path().string() + ".meta");
 		fout << out.c_str();
+		fout.close();
 	}
 	void TextureMeta(const std::filesystem::directory_entry& entry)
 	{
@@ -71,5 +75,6 @@ namespace Palmy {
 		out << YAML::EndMap;
 		std::ofstream fout(entry.path().string() + ".meta");
 		fout << out.c_str();
+		fout.close();
 	}
 }
