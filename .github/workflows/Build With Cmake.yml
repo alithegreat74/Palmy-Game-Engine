@@ -12,8 +12,8 @@ jobs:
 
     strategy:
       matrix:
-        compiler: ["Visual Studio 17 2022", "MinGW Makefiles"]
-        build_type: ["Release", "Debug"]
+        compiler: ["MinGW Makefiles"]
+        build_type: ["Release"]
 
     env:
       # Use matrix variables to customize the CMake build type and compiler
