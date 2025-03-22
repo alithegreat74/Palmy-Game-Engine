@@ -30,7 +30,21 @@ namespace Palmy {
 	Texture2D::Texture2D(const char* filePath, uint32_t resourceId)
 		:Texture(resourceId)
 	{
-		TextureInfo info = TextureLoader::LoadTexture(filePath);
+		Update(filePath);
+	}
+
+	void Texture2D::Bind() const
+	{
+		glBindTexture(GL_TEXTURE_2D, m_RendererId);
+	}
+
+	void Texture2D::Unbind() const
+	{
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	void Texture2D::Update(const char* filepath)const
+	{
+		TextureInfo info = TextureLoader::LoadTexture(filepath);
 
 		int format = info.ChannelNumber == 3 ? GL_RGB : GL_RGBA;
 		Bind();
@@ -43,15 +57,4 @@ namespace Palmy {
 		Unbind();
 		TextureLoader::UnloadTexture(info.Data);
 	}
-
-	void Texture2D::Bind() const
-	{
-		glBindTexture(GL_TEXTURE_2D, m_RendererId);
-	}
-
-	void Texture2D::Unbind() const
-	{
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-
 }

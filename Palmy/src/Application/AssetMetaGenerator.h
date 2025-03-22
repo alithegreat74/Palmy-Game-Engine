@@ -4,7 +4,6 @@
 #include <mutex>
 #include <functional>
 #include <filesystem>
-
 namespace Palmy {
 	using AssetMetaGenerationFunction = std::function<void(const std::filesystem::directory_entry&)>;
 	class AssetMetaGenerator {
@@ -13,6 +12,7 @@ namespace Palmy {
 		~AssetMetaGenerator();
 	private:
 		void LookUpFiles();
+		void LookUpFilesAsync();
 		AssetMetaGenerationFunction GetMetaGenerationFunction(const std::filesystem::directory_entry& file)const;
 	private:
 		std::thread m_LookUpThread;

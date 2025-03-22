@@ -4,6 +4,7 @@
 #include "Window.h"
 #include "../Layer/LayerStack.h"
 #include "AssetMetaGenerator.h"
+#include "ResourceManager.h"
 
 namespace Palmy {
 
@@ -17,7 +18,7 @@ namespace Palmy {
 	protected:
 		std::unique_ptr<Window> m_Window;
 		std::unique_ptr<LayerStack> m_LayerStack;
-		AssetMetaGenerator m_AssetMetaGenerator;
+		std::unique_ptr<ResourceManager> m_ResourceManager;
 	};
 
 	Application* Create();

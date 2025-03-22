@@ -4,7 +4,7 @@
 namespace Palmy {
 	class Shader {
 	public:
-		Shader(const char* filepath, uint32_t shaderTyp);
+		Shader(const char* filepath, uint32_t shaderType, uint32_t resourceId);
 		~Shader();
 		void ValidateShader()const;
 		inline uint32_t GetId()const { return m_RendererId; }
@@ -12,11 +12,12 @@ namespace Palmy {
 		std::string ReadShaderSource(const char* filePath)const;
 	private:
 		uint32_t m_RendererId;
+		uint32_t m_ResourceId;
 	};
 
 	class ShaderProgram {
 	public:
-		ShaderProgram(const char* vertexShaderPath, const char* fragmentShaderPath);
+		ShaderProgram(const Shader& vertexShader, const Shader& fragmentShader);
 		~ShaderProgram();
 		void Bind()const;
 		void Unbind()const;

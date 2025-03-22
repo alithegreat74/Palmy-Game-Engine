@@ -7,8 +7,7 @@ namespace Palmy
 {
 	class UUID {
 	public:
-		static uint32_t CreateId();
-		static void AddId(uint32_t id);
+		static uint32_t CreateId(const std::string& name);
 	private:
 		inline static std::unordered_set<uint32_t> s_UniqueIds = std::unordered_set<uint32_t>();
 		inline static std::mutex s_IdMutex;
