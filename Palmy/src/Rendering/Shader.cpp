@@ -5,11 +5,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 namespace Palmy {
-	Shader::Shader(const char* filepath, uint32_t shaderTyp)
+	Shader::Shader(const char* filepath, uint32_t shaderType, uint32_t resourceId)
+		:m_ResourceId(resourceId)
 	{
 		std::string shaderSource = ReadShaderSource(filepath);
 		const char* shaderSourceC = shaderSource.c_str();
-		m_RendererId = glCreateShader(shaderTyp);
+		m_RendererId = glCreateShader(shaderType);
 		glShaderSource(m_RendererId, 1, &shaderSourceC, NULL);
 		glCompileShader(m_RendererId);
 		ValidateShader();
@@ -37,10 +38,7 @@ namespace Palmy {
 		ss << file.rdbuf();
 		return ss.str();
 	}
-	ShaderProgram::ShaderProgram(const char* vertexShaderPath, const char* fragmentShaderPath)
-	{
-		Shader vertexShader(vertexShaderPath, GL_VERTEX_SHADER);
-		Shader fragmentShader(fragmentShaderPath, GL_FRAGMENT_SHADER);
+	ShaderProgram::ShaderProgram(const Shader& vertexShader, const Shader& fragmentShader) {
 		m_RendererId = glCreateProgram();
 		Bind();
 		glAttachShader(m_RendererId, vertexShader.GetId());

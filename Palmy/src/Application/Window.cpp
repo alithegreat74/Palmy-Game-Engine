@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 #include "../Rendering/Renderer2D.h"
 #include "../Rendering/RendererApi.h"
+#include "ResourceManager.h"
 
 namespace Palmy {
 	constexpr float VERTICIES[] = {
@@ -38,7 +39,7 @@ namespace Palmy {
 
 	WindowsWindow::WindowsWindow(const WindowInfo& info):
 		Window(info), m_Window(nullptr), 
-		m_OrthographicCamera({0.0f,0.0f,1.0f},{0.0f,0.0f,-1.0f},-2.0f,2.0f,2.0f,-2.0f,0.1f,10.0f),
+		m_OrthographicCamera({0.0f,0.0f,1.0f},{0.0f,0.0f,-1.0f},-0.5f,0.5f,0.5f,-0.5f,0.1f,10.0f),
 		m_CameraController(m_OrthographicCamera)
 	{
 		ENGINE_ASSERT(glfwInit(), "Failed to initialize glfw");
@@ -49,7 +50,6 @@ namespace Palmy {
 		glfwSetWindowUserPointer(m_Window, &m_WindowData);
 		glfwMakeContextCurrent(m_Window);
 		ENGINE_ASSERT(gladLoadGL(), "Failed to initialize opengl functinos");
-
 		glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
 			WindowResizedEvent e{(float)width, (float)height};
 			WindowData* data = static_cast<WindowData*>(glfwGetWindowUserPointer(window));
@@ -71,13 +71,6 @@ namespace Palmy {
 			}
 		});
 		Input::Init(m_Window);
-		m_Shader = std::make_shared<ShaderProgram>("Assets/Shaders/QuadVertexShader.glsl", "Assets/Shaders/QuadFragmentShader.glsl");
-		m_Texture = std::make_shared<Texture2D>("Assets/Textures/Hardwood Floor.jpg");
-		m_VertexArray = std::make_shared<VertexArray>();
-		m_VertexArray->Bind();
-		VertexBuffer vbo(VERTICIES, sizeof(VERTICIES), { { GL_FLOAT,2,2 * sizeof(float),false },{GL_FLOAT,2,2*sizeof(float),false}});
-		vbo.Unbind();
-		m_VertexArray->Unbind();
 		ImGuiContext::Initialize(m_Window);
 	}
 	WindowsWindow::~WindowsWindow()
@@ -85,7 +78,16 @@ namespace Palmy {
 		ImGuiContext::CleanUp();
 		glfwDestroyWindow(m_Window);
 		glfwTerminate();
-		
+	}
+	void WindowsWindow::Start()
+	{
+		m_Shader = std::make_shared<ShaderProgram>(*ResourceManager::GetShader(2204820834), *ResourceManager::GetShader(4187305228));
+		m_Texture = ResourceManager::GetTexture2D(710627734);
+		m_VertexArray = std::make_shared<VertexArray>();
+		m_VertexArray->Bind();
+		VertexBuffer vbo(VERTICIES, sizeof(VERTICIES), { { GL_FLOAT,2,2 * sizeof(float),false },{GL_FLOAT,2,2 * sizeof(float),false} });
+		vbo.Unbind();
+		m_VertexArray->Unbind();
 	}
 	void WindowsWindow::Update()
 	{

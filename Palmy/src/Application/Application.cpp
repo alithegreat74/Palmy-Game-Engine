@@ -12,11 +12,15 @@ namespace Palmy {
 		m_Window = Window::Create(WindowInfo("Application Window", 1280.0f, 720.0f));
 		m_Window->SetEventCallback(ENGINE_BIND(Application::OnEvent));
 		m_LayerStack = std::make_unique<LayerStack>();
+		m_ResourceManager = std::make_unique<ResourceManager>();
 	}
     void Application::Run()
     {
+		ResourceManager::CheckForResources();
+		m_Window->Start();
 		while (m_Window->ShouldWindowClose())
 		{
+			ResourceManager::CheckForResources();
 			m_Window->Update();
 			Timer::Calculate();
 			for (auto it = m_LayerStack->rbegin(); it < m_LayerStack->rend(); it++) {
