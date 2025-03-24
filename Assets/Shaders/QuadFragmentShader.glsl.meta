@@ -1,0 +1,6 @@
+# In order for the fragment shader not be used as a vertex shader we store this meta file with the actual source
+# the game engine regards all shaders as a vertex shader right now
+Id: 2204820834
+Name: QuadFragmentShader.glsl
+Type: Shader
+ShaderType: Fragment
