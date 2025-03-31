@@ -3,7 +3,7 @@
 #include <fstream>
 
 
-namespace Sandbox {
+namespace TestApplication {
 
 	
 
@@ -35,10 +35,10 @@ namespace Sandbox {
 		}
 	};
 
-	class SandboxApp :public Palmy::Application {
+	class TestApplication :public Palmy::Application {
 	public:
-		SandboxApp() :
-			Palmy::Application("Sandbox")
+		TestApplication() :
+			Palmy::Application("TestApplication")
 		{
 			m_LayerStack->AttachLayer(std::make_shared<ExampleLayer>("Example Layer"));
 
@@ -50,6 +50,6 @@ namespace Sandbox {
 
 Palmy::Application* Palmy::Create() {
 
-	return new Sandbox::SandboxApp();
+	return new TestApplication::TestApplication();
 }
 
