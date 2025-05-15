@@ -1,16 +1,16 @@
 #include "pch.h"
 #include "Buffers.h"
 #include <glad/glad.h>
+#include <Core/RendererDebugger.h>
 namespace Palmy {
-	VertexBuffer::VertexBuffer(const void* verticies, size_t size, std::initializer_list<BufferLayoutElement> elements):
+	VertexBuffer::VertexBuffer(size_t size, std::initializer_list<BufferLayoutElement> elements):
 		m_Layout(elements)
 	{
 		glGenBuffers(1, &m_RendererId);
 		Bind();
-		glBufferData(GL_ARRAY_BUFFER, size, verticies, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_STATIC_DRAW);
 		m_Layout.SetAttributes();
 		Unbind();
-		
 	}
 	VertexBuffer::~VertexBuffer()
 	{
@@ -23,6 +23,12 @@ namespace Palmy {
 	void VertexBuffer::Unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	void VertexBuffer::SetBatchData(const void* data, size_t dataSize)
+	{
+		Bind();
+		glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, data);
+		Unbind();
 	}
 	IndexBuffer::IndexBuffer(const void* indicies, size_t size)
 	{
@@ -49,7 +55,6 @@ namespace Palmy {
 	VertexArray::VertexArray()
 	{
 		glGenVertexArrays(1, &m_RendererId);
-		Bind();
 	}
 
 	VertexArray::~VertexArray()
@@ -82,8 +87,8 @@ namespace Palmy {
 		size_t stride = 0;
 		for (size_t i = 0; i < m_Elements.size(); i++)
 		{
-			glVertexAttribPointer(i, m_RowLength, m_Elements[i].BaseDataType, m_Elements[i].Normalize, m_RowSize, (void*)(stride));
 			glEnableVertexAttribArray(i);
+			glVertexAttribPointer(i, m_Elements[i].NumberOfElements, m_Elements[i].BaseDataType, m_Elements[i].Normalize, m_RowSize, (void*)(stride));
 			stride += m_Elements[i].Size;
 		}
 	}

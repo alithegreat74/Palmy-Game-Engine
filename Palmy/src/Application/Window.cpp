@@ -10,16 +10,10 @@
 #include "../Rendering/Renderer2D.h"
 #include "../Rendering/RendererApi.h"
 #include "ResourceManager.h"
+#include "Core/RendererDebugger.h"
 
 namespace Palmy {
-	constexpr float VERTICIES[] = {
-		-0.5f,-0.5f, 0.0f, 0.0f,
-		 0.5f,-0.5f, 1.0f, 0.0f,
-		 0.5f, 0.5f, 1.0f, 1.0f,
-		 0.5f, 0.5f, 1.0f, 1.0f,
-		-0.5f, 0.5f, 0.0f, 1.0f,
-		-0.5f,-0.5f, 0.0f, 0.0f,
-	};
+	
 	Window::Window(const WindowInfo& info):
 		m_WindowInfo(info)
 	{
@@ -83,11 +77,6 @@ namespace Palmy {
 	{
 		m_Shader = std::make_shared<ShaderProgram>(*ResourceManager::GetShader(2204820834), *ResourceManager::GetShader(4187305228));
 		m_Texture = ResourceManager::GetTexture2D(710627734);
-		m_VertexArray = std::make_shared<VertexArray>();
-		m_VertexArray->Bind();
-		VertexBuffer vbo(VERTICIES, sizeof(VERTICIES), { { GL_FLOAT,2,2 * sizeof(float),false },{GL_FLOAT,2,2 * sizeof(float),false} });
-		vbo.Unbind();
-		m_VertexArray->Unbind();
 		m_Renderer = std::make_unique<Renderer2D>();
 	}
 	void WindowsWindow::Update()
@@ -100,10 +89,19 @@ namespace Palmy {
 			ImGui::End();
 		}
 		m_Shader->Bind();
+		m_Texture->Bind();
 		m_Shader->ChangeUniform("uCameraMatrix", m_OrthographicCamera.GetCameraMatrix());
-		m_VertexArray->Bind();
-		m_Renderer->RenderQuad(Transform2D(), *m_Shader, *m_Texture);
-		m_VertexArray->Unbind();
+		//Testing 100 quad draws
+		for (int i = -5; i < 6; i++)
+		{
+			for (int j = -5; j < 6; j++)
+			{
+				glm::vec4 color = (i * j) % 2 == 0 ? glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) : glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+				m_Renderer->RenderQuad(
+					Transform2D(glm::vec2(((float)j)/10, ((float)i)/10), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.05, 0.05, 0.05)),color);
+			}
+		}
+		m_Renderer->DrawBatch();
 		m_Shader->Unbind();
 		ImGuiContext::EndFrame();
 		glfwPollEvents();
