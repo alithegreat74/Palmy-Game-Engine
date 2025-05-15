@@ -20,10 +20,11 @@ namespace Palmy {
 	};
 	class VertexBuffer {
 	public:
-		VertexBuffer(const void* verticies, size_t size, std::initializer_list<BufferLayoutElement> elements);
+		VertexBuffer(size_t size, std::initializer_list<BufferLayoutElement> elements);
 		~VertexBuffer();
 		void Bind()const;
 		void Unbind()const;
+		void SetBatchData(const void* data, size_t dataSize);
 	private:
 		uint32_t m_RendererId;
 		BufferLayout m_Layout;

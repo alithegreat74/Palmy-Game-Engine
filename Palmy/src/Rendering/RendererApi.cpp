@@ -17,8 +17,8 @@ namespace Palmy
 	{
 		glfwSwapBuffers(window);
 	}
-	void RendererApi::QuadDrawCall()
+	void RendererApi::QuadDrawCall(size_t vertexSize)
 	{
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawArrays(GL_TRIANGLES, 0, vertexSize);
 	}
 }

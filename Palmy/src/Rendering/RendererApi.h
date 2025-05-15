@@ -9,6 +9,6 @@ namespace Palmy {
 		static void ClearColor(glm::vec4 color);
 		static void SetRendererFlags();
 		static void SwapBuffers(GLFWwindow* window);
-		static void QuadDrawCall();
+		static void QuadDrawCall(size_t vertexSize);
 	};
 }
