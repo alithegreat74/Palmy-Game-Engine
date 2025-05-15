@@ -88,6 +88,7 @@ namespace Palmy {
 		VertexBuffer vbo(VERTICIES, sizeof(VERTICIES), { { GL_FLOAT,2,2 * sizeof(float),false },{GL_FLOAT,2,2 * sizeof(float),false} });
 		vbo.Unbind();
 		m_VertexArray->Unbind();
+		m_Renderer = std::make_unique<Renderer2D>();
 	}
 	void WindowsWindow::Update()
 	{
@@ -101,7 +102,7 @@ namespace Palmy {
 		m_Shader->Bind();
 		m_Shader->ChangeUniform("uCameraMatrix", m_OrthographicCamera.GetCameraMatrix());
 		m_VertexArray->Bind();
-		Renderer2D::RenderQuad(Transform2D(), *m_Shader, *m_Texture);
+		m_Renderer->RenderQuad(Transform2D(), *m_Shader, *m_Texture);
 		m_VertexArray->Unbind();
 		m_Shader->Unbind();
 		ImGuiContext::EndFrame();

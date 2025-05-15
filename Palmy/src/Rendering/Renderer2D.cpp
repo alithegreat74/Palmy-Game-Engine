@@ -5,9 +5,12 @@
 #include "RendererApi.h"
 
 namespace Palmy {
+	Renderer2D::Renderer2D()
+	{
+	}
 	void Renderer2D::RenderQuad(const Transform2D& transform, const ShaderProgram& program, const Texture& texture) {
-		glm::mat4 transfromMatrix = transform.GetTransformMatrix();
-		program.ChangeUniform("uTransform", transfromMatrix);
+		glm::mat4 transformMatrix = transform.GetTransformMatrix();
+		program.ChangeUniform("uTransform", transformMatrix);
 		program.ChangeUniform("uColor", glm::vec4(1.0, 1.0, 1.0, 1.0));
 		texture.Bind();
 		RendererApi::QuadDrawCall();
