@@ -37,7 +37,11 @@ namespace Palmy {
 	{
 		glBindTexture(GL_TEXTURE_2D, m_RendererId);
 	}
-
+	void Texture2D::Bind(int32_t textureNumber) const
+	{
+		glActiveTexture(GL_TEXTURE0 + textureNumber);
+		glBindTexture(GL_TEXTURE_2D, m_RendererId);
+	}
 	void Texture2D::Unbind() const
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
