@@ -9,7 +9,6 @@
 #include "../Rendering/Shader.h"
 #include "../Rendering/Buffers.h"
 #include "../Rendering/Texture.h"
-#include "../Rendering/Camera.h"
 #include "../Rendering/Renderer2D.h"
 
 namespace Palmy {
@@ -64,11 +63,7 @@ namespace Palmy {
 		};
 		WindowData m_WindowData;
 		GLFWwindow* m_Window;
-		std::shared_ptr<ShaderProgram> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
 		std::shared_ptr<Texture2D> m_Texture;
 		std::unique_ptr<Renderer2D> m_Renderer;
-		OrthoGraphicCamera m_OrthographicCamera;
-		CameraController m_CameraController;
 	};
 }

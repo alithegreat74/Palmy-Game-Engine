@@ -26,6 +26,8 @@ namespace Palmy {
 		void ChangeUniform(const char* uniformName, glm::vec2 value)const;
 		void ChangeUniform(const char* uniformName, glm::mat4 value)const;
 		void ChangeUniform(const char* uniformName, glm::vec4 value)const;
+		void ChangeUniform(const char* uniformName, int32_t value)const;
+		void ChangeUniform(const char* uniformName, size_t size, const int32_t* array);
 	private:
 		uint32_t m_RendererId;
 	};

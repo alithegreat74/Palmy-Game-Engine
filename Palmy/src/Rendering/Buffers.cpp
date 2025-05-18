@@ -88,7 +88,10 @@ namespace Palmy {
 		for (size_t i = 0; i < m_Elements.size(); i++)
 		{
 			glEnableVertexAttribArray(i);
-			glVertexAttribPointer(i, m_Elements[i].NumberOfElements, m_Elements[i].BaseDataType, m_Elements[i].Normalize, m_RowSize, (void*)(stride));
+			if(m_Elements[i].BaseDataType==GL_FLOAT)
+				glVertexAttribPointer(i, m_Elements[i].NumberOfElements, m_Elements[i].BaseDataType, m_Elements[i].Normalize, m_RowSize, (void*)(stride));
+			else
+				glVertexAttribIPointer(i, m_Elements[i].NumberOfElements, m_Elements[i].BaseDataType, m_RowSize, (void*)(stride));
 			stride += m_Elements[i].Size;
 		}
 	}
