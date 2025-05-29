@@ -7,10 +7,11 @@
 #include "../Application/ResourceManager.h"
 
 namespace Palmy {
-	Renderer2D::Renderer2D()
+	Renderer2D::Renderer2D(float windowWidth, float windowHeight)
 		:m_BatchData(),m_TextureIndex(0),
 		m_OrthographicCamera({0.0f,0.0f,1.0f},{0.0f,0.0f,-1.0f},-1.0f, 1.0f, 1.0f,-1.0f,0.1f,10.0f),
-		m_CameraController(m_OrthographicCamera)
+		m_CameraController(m_OrthographicCamera),
+		m_WindowSize({windowWidth, windowHeight})
 	{
 		m_Shader = std::make_unique<ShaderProgram>(*ResourceManager::GetShader(2204820834), *ResourceManager::GetShader(4187305228));
 		m_Shader->Bind();
@@ -41,6 +42,7 @@ namespace Palmy {
 		glm::mat4 transformMatrix = transform.GetTransformMatrix();
 		QuadVertexData vertexData;
 		int32_t textureNumber = SetTextureNumber(texture);
+		SetTextureQuadPosition(vertexData, subTextureInfo);
 		for (size_t i = 0; i < QUAD_VERTEX_SIZE; i++)
 		{
 			vertexData.VertexDatas[i].Position = transformMatrix * vertexData.VertexDatas[i].Position;
@@ -90,8 +92,21 @@ namespace Palmy {
 		m_BatchData.clear();
 		m_VertexArray->Unbind();
 	}
+	inline void Renderer2D::SetTextureQuadPosition(QuadVertexData& vertexData, const SubTextureInfo& subTextureInfo)
+	{
+		float vMin = -1.0f * (subTextureInfo.Size.x / 2) / m_WindowSize.x;
+		float uMin = -1.0f * (subTextureInfo.Size.y / 2) / m_WindowSize.y;
+		float vMax = (subTextureInfo.Size.x / 2) / m_WindowSize.x;
+		float uMax = (subTextureInfo.Size.y / 2) / m_WindowSize.y;
 
-	void Renderer2D::SetTextureCoordinates(QuadVertexData& vertexData, std::shared_ptr<Texture2D>texture, const SubTextureInfo& subTextureInfo)
+		vertexData.VertexDatas[0].Position = { vMin, uMin, 0.0f, 1.0f };
+		vertexData.VertexDatas[1].Position = { vMax, uMin, 0.0f, 1.0f };
+		vertexData.VertexDatas[2].Position = { vMax, uMax, 0.0f, 1.0f };
+		vertexData.VertexDatas[3].Position = { vMax, uMax, 0.0f, 1.0f };
+		vertexData.VertexDatas[4].Position = { vMin, uMax, 0.0f, 1.0f };
+		vertexData.VertexDatas[5].Position = { vMin, uMin, 0.0f, 1.0f };
+	}
+	inline void Renderer2D::SetTextureCoordinates(QuadVertexData& vertexData, std::shared_ptr<Texture2D>texture, const SubTextureInfo& subTextureInfo)
 	{
 		float texWidth = texture->GetWidth();
 		float texHeight = texture->GetHeight();

@@ -73,8 +73,8 @@ namespace Palmy {
 	}
 	void WindowsWindow::Start()
 	{
-		m_Texture = ResourceManager::GetTexture2D(1153661826);
-		m_Renderer = std::make_unique<Renderer2D>();
+		m_Texture = ResourceManager::GetTexture2D(710627734);
+		m_Renderer = std::make_unique<Renderer2D>(m_WindowData.Width,m_WindowData.Height);
 	}
 	void WindowsWindow::Update()
 	{
@@ -86,7 +86,7 @@ namespace Palmy {
 			ImGui::End();
 		}
 		m_Renderer->StartDraw();
-		m_Renderer->RenderQuad(Transform2D(), m_Texture, { {0.0f,384.0f},{128.0f,128.0f} });
+		m_Renderer->RenderQuad(Transform2D(), m_Texture);
 		m_Renderer->DrawBatch();
 		ImGuiContext::EndFrame();
 		glfwPollEvents();
