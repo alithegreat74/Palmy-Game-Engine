@@ -30,7 +30,7 @@ namespace Palmy {
 	};
 	class Renderer2D {
 	public:
-		Renderer2D();
+		Renderer2D(float windowWidth, float windowHeight);
 		void RenderQuad(const Transform2D&, std::shared_ptr<Texture2D>);
 		void RenderQuad(const Transform2D&, std::shared_ptr<Texture2D>, const SubTextureInfo& subTextureInfo);
 		void RenderQuad(const Transform2D&, const glm::vec4 color);
@@ -38,13 +38,15 @@ namespace Palmy {
 		void StartDraw();
 		void DrawBatch();
 	private:
-		void SetTextureCoordinates(QuadVertexData& vertexData, std::shared_ptr<Texture2D>texture, const SubTextureInfo& subTextureInfo);
+		inline void SetTextureQuadPosition(QuadVertexData& vertexData, const SubTextureInfo& subTextureInfo);
+		inline void SetTextureCoordinates(QuadVertexData& vertexData, std::shared_ptr<Texture2D>texture, const SubTextureInfo& subTextureInfo);
 	private:
 		std::unique_ptr<VertexArray> m_VertexArray;
 		std::unique_ptr<VertexBuffer> m_VertexBuffer;
 		std::unique_ptr<ShaderProgram> m_Shader;
 		std::vector<QuadVertexData> m_BatchData;
 		std::unordered_map<std::shared_ptr<Texture2D>, int32_t> m_TextureSet;
+		glm::vec2 m_WindowSize;
 		int32_t m_TextureIndex;
 		OrthoGraphicCamera m_OrthographicCamera;
 		CameraController m_CameraController;
