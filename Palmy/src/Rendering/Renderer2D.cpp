@@ -26,7 +26,16 @@ namespace Palmy {
 		m_VertexBuffer->Unbind();
 		m_VertexArray->Unbind();
 	}
-	void Renderer2D::RenderQuad(const Transform2D& transform, std::shared_ptr<Texture2D> texture) {
+	void Renderer2D::RenderQuad(const Transform2D& transform, std::shared_ptr<Texture2D> texture) 
+	{
+		SubTextureInfo subTextureInfo{
+			glm::vec2(0.0f,0.0f),
+			glm::vec2(texture->GetWidth(), texture->GetHeight())
+		};
+		RenderQuad(transform, texture, subTextureInfo);
+	}
+	void Renderer2D::RenderQuad(const Transform2D& transform, std::shared_ptr<Texture2D> texture, const SubTextureInfo& subTextureInfo)
+	{
 		if (m_BatchData.size() >= BATCH_SIZE || m_TextureSet.size() >= MAX_TEXTURE_COUNT)
 			DrawBatch();
 		glm::mat4 transformMatrix = transform.GetTransformMatrix();
@@ -38,9 +47,9 @@ namespace Palmy {
 			vertexData.VertexDatas[i].Color = DEFAULT_COLOR;
 			vertexData.VertexDatas[i].TextureNumber = textureNumber;
 		}
+		SetTextureCoordinates(vertexData, texture, subTextureInfo);
 		m_BatchData.push_back(vertexData);
 	}
-
 	void Renderer2D::RenderQuad(const Transform2D& transform, const glm::vec4 color)
 	{
 		glm::mat4 transformMatrix = transform.GetTransformMatrix();
@@ -80,7 +89,24 @@ namespace Palmy {
 		RendererApi::QuadDrawCall(QUAD_VERTEX_SIZE * m_BatchData.size());
 		m_BatchData.clear();
 		m_VertexArray->Unbind();
+	}
 
+	void Renderer2D::SetTextureCoordinates(QuadVertexData& vertexData, std::shared_ptr<Texture2D>texture, const SubTextureInfo& subTextureInfo)
+	{
+		float texWidth = texture->GetWidth();
+		float texHeight = texture->GetHeight();
+
+		float uMin = subTextureInfo.Offset.x / texWidth;
+		float vMin = subTextureInfo.Offset.y / texHeight;
+		float uMax = (subTextureInfo.Offset.x + subTextureInfo.Size.x) / texWidth;
+		float vMax = (subTextureInfo.Offset.y + subTextureInfo.Size.y) / texHeight;
+
+		vertexData.VertexDatas[0].TextureCoordinates = { uMin, vMin };
+		vertexData.VertexDatas[1].TextureCoordinates = { uMax, vMin };
+		vertexData.VertexDatas[2].TextureCoordinates = { uMax, vMax };
+		vertexData.VertexDatas[3].TextureCoordinates = { uMax, vMax };
+		vertexData.VertexDatas[4].TextureCoordinates = { uMin, vMax };
+		vertexData.VertexDatas[5].TextureCoordinates = { uMin, vMin };
 	}
 	QuadVertexData::QuadVertexData()
 	{
