@@ -32,10 +32,13 @@ namespace Palmy {
 	public:
 		Renderer2D();
 		void RenderQuad(const Transform2D&, std::shared_ptr<Texture2D>);
+		void RenderQuad(const Transform2D&, std::shared_ptr<Texture2D>, const SubTextureInfo& subTextureInfo);
 		void RenderQuad(const Transform2D&, const glm::vec4 color);
 		inline int32_t SetTextureNumber(const std::shared_ptr<Texture2D>& texture);
 		void StartDraw();
 		void DrawBatch();
+	private:
+		void SetTextureCoordinates(QuadVertexData& vertexData, std::shared_ptr<Texture2D>texture, const SubTextureInfo& subTextureInfo);
 	private:
 		std::unique_ptr<VertexArray> m_VertexArray;
 		std::unique_ptr<VertexBuffer> m_VertexBuffer;

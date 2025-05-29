@@ -46,9 +46,11 @@ namespace Palmy {
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-	void Texture2D::Update(const char* filepath)const
+	void Texture2D::Update(const char* filepath)
 	{
 		TextureInfo info = TextureLoader::LoadTexture(filepath);
+		m_Width = info.Width;
+		m_Height = info.Height;
 
 		int format = info.ChannelNumber == 3 ? GL_RGB : GL_RGBA;
 		Bind();
