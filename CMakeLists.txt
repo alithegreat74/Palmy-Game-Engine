@@ -13,9 +13,9 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 
 # Add subdirectories
-add_subdirectory(${CMAKE_SOURCE_DIR}/Palmy)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Sandbox)
-add_subdirectory(${CMAKE_SOURCE_DIR}/Thirdparty/glm)
+add_subdirectory(Palmy)
+add_subdirectory(Sandbox)
+add_subdirectory(Thirdparty/glm)
 
 # Set the startup project for Visual Studio
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Sandbox)
