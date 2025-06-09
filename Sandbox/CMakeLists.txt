@@ -1,8 +1,7 @@
 project(Sandbox)
 
 # Define paths
-set(CURRENT_DIR ${CMAKE_SOURCE_DIR}/Sandbox)
-set(SRC_DIR ${CURRENT_DIR}/src)
+set(SRC_DIR ./src)
 
 # Find all source files
 file(GLOB_RECURSE SRC_FILES "${SRC_DIR}/*.cpp" "${SRC_DIR}/*.h")
@@ -12,12 +11,12 @@ add_executable(Sandbox ${SRC_FILES})
 
 # Include directories
 include_directories(
-    "${CMAKE_SOURCE_DIR}/Palmy"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/spdlog/include"
-    "${CMAKE_SOURCE_DIR}/Palmy/Thirdparty/glfw/include"
-    "${CMAKE_SOURCE_DIR}/Palmy/Thirdparty/glad/include"
-    "${CMAKE_SOURCE_DIR}/Palmy/Thirdparty/yaml-cpp/include"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/glm/glm"
+    "../Palmy"
+    "../Thirdparty/spdlog/include"
+    "../Palmy/Thirdparty/glfw/include"
+    "../Palmy/Thirdparty/glad/include"
+    "../Palmy/Thirdparty/yaml-cpp/include"
+    "../Thirdparty/glm/glm"
 
 )
 

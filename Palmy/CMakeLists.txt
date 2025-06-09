@@ -2,36 +2,35 @@ project(Engine LANGUAGES CXX)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Supported build types" FORCE)
 
-set(CURRENT_DIR ${CMAKE_SOURCE_DIR}/Palmy)
-set(SRC_DIR ${CURRENT_DIR}/src)
+set(SRC_DIR "./src")
 
 file(GLOB_RECURSE SRC_FILES "${SRC_DIR}/*.cpp" "${SRC_DIR}/*.h")
 file(GLOB IMGUI_FILES
-    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/*.cpp"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/*.h"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/backends/imgui_impl_opengl3_loader.h"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/backends/imgui_impl_opengl3.h"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/backends/imgui_impl_opengl3.cpp"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/backends/imgui_impl_glfw.h"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui/backends/imgui_impl_glfw.cpp"
+    "../Thirdparty/Imgui/*.cpp"
+    "../Thirdparty/Imgui/*.h"
+    "../Thirdparty/Imgui/backends/imgui_impl_opengl3_loader.h"
+    "../Thirdparty/Imgui/backends/imgui_impl_opengl3.h"
+    "../Thirdparty/Imgui/backends/imgui_impl_opengl3.cpp"
+    "../Thirdparty/Imgui/backends/imgui_impl_glfw.h"
+    "../Thirdparty/Imgui/backends/imgui_impl_glfw.cpp"
 
 )
 add_library(Engine ${SRC_FILES} ${IMGUI_FILES})
 
-add_subdirectory(${CURRENT_DIR}/Thirdparty/glfw)
-add_subdirectory(${CURRENT_DIR}/Thirdparty/glad)
-add_subdirectory(${CURRENT_DIR}/Thirdparty/stb_image)
-add_subdirectory(${CURRENT_DIR}/Thirdparty/yaml-cpp)
+add_subdirectory(./Thirdparty/glfw)
+add_subdirectory(./Thirdparty/glad)
+add_subdirectory(./Thirdparty/stb_image)
+add_subdirectory(./Thirdparty/yaml-cpp)
 
 include_directories(
     "${SRC_DIR}"
-    "${CURRENT_DIR}/Thirdparty/glfw/include"
-    "${CURRENT_DIR}/Thirdparty/glad/include"
-    "${CURRENT_DIR}/Thirdparty/stb_image"
-    "${CURRENT_DIR}/Thirdparty/yaml-cpp/include"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/spdlog/include"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/Imgui"
-    "${CMAKE_SOURCE_DIR}/Thirdparty/glm/glm"
+    "./Thirdparty/glfw/include"
+    "./Thirdparty/glad/include"
+    "./Thirdparty/stb_image"
+    "./Thirdparty/yaml-cpp/include"
+    "../Thirdparty/spdlog/include"
+    "../Thirdparty/Imgui"
+    "../Thirdparty/glm/glm"
 )
 
 target_link_libraries(Engine PUBLIC glfw glad stb_image yaml-cpp)
