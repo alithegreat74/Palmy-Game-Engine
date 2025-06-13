@@ -12,3 +12,6 @@
 #include "src/Layer/Layer.h"
 #include "src/Event/Event.h"
 #include "src/Core/EntryPoint.h"
+#include "src/Rendering/Texture.h"
+#include "src/Application/ResourceManager.h"
+#include "src/Math/Math.h"

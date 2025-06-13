@@ -12,27 +12,16 @@ namespace Sandbox {
 		ExampleLayer(const std::string& layerName = "New Layer"):
 			Palmy::Layer(layerName)
 		{
-
+			m_Texture = Palmy::ResourceManager::GetTexture2D(710627734);
 		}
 		~ExampleLayer(){}
 
-		virtual void OnAttach() {
-			
-			
-		}
 		virtual void OnUpdate() {
 				
-			
-
+			m_Renderer->RenderQuad(Palmy::Transform2D(), m_Texture);
 		}
-		virtual void OnEvent(Palmy::Event& event) {
-			Palmy::EventHandler::Handle<Palmy::WindowResizedEvent>(ENGINE_BIND(ExampleLayer::OnWindowResized),event);
-		}
-
-		bool OnWindowResized(const Palmy::WindowResizedEvent& event) {
-			CLIENT_LOG("Window Resized to Width:{0}, Height:{1}", event.m_Width, event.m_Height);
-			return true;
-		}
+	private:
+		std::shared_ptr<Palmy::Texture2D> m_Texture;
 	};
 
 	class SandboxApp :public Palmy::Application {
@@ -40,8 +29,7 @@ namespace Sandbox {
 		SandboxApp() :
 			Palmy::Application("Sandbox")
 		{
-			m_LayerStack->AttachLayer(std::make_shared<ExampleLayer>("Example Layer"));
-
+			AttachLayer(std::make_shared<ExampleLayer>("Example Layer"));
 		}
 	};
 }

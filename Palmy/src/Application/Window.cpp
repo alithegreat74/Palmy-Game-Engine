@@ -63,7 +63,6 @@ namespace Palmy {
 			}
 		});
 		Input::Init(m_Window);
-		ImGuiContext::Initialize(m_Window);
 	}
 	WindowsWindow::~WindowsWindow()
 	{
@@ -71,25 +70,13 @@ namespace Palmy {
 		glfwDestroyWindow(m_Window);
 		glfwTerminate();
 	}
-	void WindowsWindow::Start()
-	{
-		m_Texture = ResourceManager::GetTexture2D(710627734);
-		m_Renderer = std::make_unique<Renderer2D>(m_WindowData.Width,m_WindowData.Height);
-	}
-	void WindowsWindow::Update()
+	void WindowsWindow::BeginFrame()
 	{
 		RendererApi::ClearColor(glm::vec4(0));
-		ImGuiContext::BeginFrame();
-		{
-			ImGui::Begin("Statistics");
-			ImGui::Text("Frame rate is: %f", (1/Timer::DeltaTime));
-			ImGui::End();
-		}
-		m_Renderer->StartDraw();
-		m_Renderer->RenderQuad(Transform2D(), m_Texture);
-		m_Renderer->DrawBatch();
-		ImGuiContext::EndFrame();
 		glfwPollEvents();
+	}
+	void WindowsWindow::EndFrame()
+	{
 		RendererApi::SwapBuffers(m_Window);
 	}
 	bool WindowsWindow::OnWindowResize(const WindowResizedEvent& e)

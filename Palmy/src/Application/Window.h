@@ -6,10 +6,6 @@
 #include "../Event/WindowEvent.h"
 #include "../Event/MouseEvent.h"
 #include "../Event/KeyEvent.h"
-#include "../Rendering/Shader.h"
-#include "../Rendering/Buffers.h"
-#include "../Rendering/Texture.h"
-#include "../Rendering/Renderer2D.h"
 
 namespace Palmy {
 
@@ -33,8 +29,8 @@ namespace Palmy {
 		virtual ~Window();
 		virtual void SetEventCallback(const EventCallbackFunction& callbackFunction) = 0;
 		static std::unique_ptr<Window>Create(const WindowInfo& info = WindowInfo());
-		virtual void Start() = 0;
-		virtual void Update() = 0;
+		virtual void BeginFrame() = 0;
+		virtual void EndFrame() = 0;
 		virtual bool ShouldWindowClose() = 0;
 		virtual void* GetWindowContext() = 0;
 	protected:
@@ -49,8 +45,8 @@ namespace Palmy {
 		WindowsWindow(const WindowInfo& info);
 		~WindowsWindow()override;
 		virtual void SetEventCallback(const EventCallbackFunction& callbackFunction)override { m_WindowData.CallbackFunction = callbackFunction; }
-		virtual void Start()override;
-		virtual void Update()override;
+		virtual void BeginFrame()override;
+		virtual void EndFrame()override;
 		static bool OnWindowResize(const WindowResizedEvent& e);
 		virtual bool ShouldWindowClose() { return !glfwWindowShouldClose(m_Window); }
 		virtual void* GetWindowContext()override{return m_Window;}
@@ -63,7 +59,5 @@ namespace Palmy {
 		};
 		WindowData m_WindowData;
 		GLFWwindow* m_Window;
-		std::shared_ptr<Texture2D> m_Texture;
-		std::unique_ptr<Renderer2D> m_Renderer;
 	};
 }
