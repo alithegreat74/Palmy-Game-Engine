@@ -9,6 +9,6 @@ void main()
 	if(TextureNumber < 0 || TextureNumber >= 32)
 		FragColor = Color;
 	else
-		FragColor = vec4(texture(uTexture[TextureNumber],TextureCoordinates)) * Color;
+		FragColor = vec4(texture(uTexture[TextureNumber],vec2(1-TextureCoordinates.x, TextureCoordinates.y))) * Color;
 
 }

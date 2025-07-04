@@ -36,6 +36,12 @@ namespace Palmy {
 	{
 		glm::vec2 Offset;
 		glm::vec2 Size;
+		SubTextureInfo()
+			:Offset({0.0f,0.0f}),Size({0.0f,0.0f})
+		{}
+		SubTextureInfo(glm::vec2 offset, glm::vec2 size)
+			:Offset(offset), Size(size)
+		{}
 	};
 	class Texture2D:public Texture {
 	public:
