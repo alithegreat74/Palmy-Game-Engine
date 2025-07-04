@@ -13,7 +13,7 @@ namespace Palmy
 	bool Input::GetKeyDown(KeyCode keyCode)
 	{
 		int state = glfwGetKey(static_cast<GLFWwindow*>(s_Window), keyCode);
-		return state != GLFW_PRESS;
+		return state == GLFW_PRESS;
 	}
 	bool Input::GetKeyUp(KeyCode keyCode)
 	{

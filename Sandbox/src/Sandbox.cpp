@@ -5,7 +5,7 @@
 #include <fstream>
 #include "Background.h"
 #include "./Bird.h"
-#include "./PipeGenerator.h"
+#include "./PipeManager.h"
 
 namespace Sandbox {
 
@@ -13,24 +13,30 @@ namespace Sandbox {
 	constexpr float BIRD_SPEED_DECLINE = 0.1f;
 	float g_BackgroundSpeed = 1.0f;
 	float PIPE_SPEED = 0.8f;
+
+	constexpr uint32_t TEXTURE_ID_BACKGROUND = 1589568186;
+	constexpr uint32_t TEXTURE_ID_BIRD = 3123682840;
+	constexpr uint32_t TEXTURE_ID_PIPE = 3837834200;
+	constexpr uint32_t TEXTURE_ID_GAME_FINISHED = 985712114;
+
 	class ExampleLayer :public Palmy::Layer {
 	public:
 		ExampleLayer(const std::string& layerName = "New Layer"):
 			Palmy::Layer(layerName)
 		{
-			std::shared_ptr<Palmy::Texture2D> backgroundTexture = Palmy::ResourceManager::GetTexture2D(1589568186);
-			std::shared_ptr<Palmy::Texture2D> birdTexture = Palmy::ResourceManager::GetTexture2D(3123682840);
-			std::shared_ptr<Palmy::Texture2D> pipeTexture = Palmy::ResourceManager::GetTexture2D(3837834200);
-			m_PipeGenerator = std::make_unique<PipeGenerator>(pipeTexture, PIPE_SPEED);
+			std::shared_ptr<Palmy::Texture2D> backgroundTexture = Palmy::ResourceManager::GetTexture2D(TEXTURE_ID_BACKGROUND);
+			std::shared_ptr<Palmy::Texture2D> birdTexture = Palmy::ResourceManager::GetTexture2D(TEXTURE_ID_BIRD);
+			std::shared_ptr<Palmy::Texture2D> pipeTexture = Palmy::ResourceManager::GetTexture2D(TEXTURE_ID_PIPE);
+			m_GameFinishedTexture = Palmy::ResourceManager::GetTexture2D(TEXTURE_ID_GAME_FINISHED);
+			m_PipeManager = std::make_unique<PipeManager>(pipeTexture, PIPE_SPEED);
 			m_BackgroundLeft = std::make_unique<Background>(backgroundTexture, g_BackgroundSpeed, true);
 			m_BackgroundRight = std::make_unique<Background>(backgroundTexture, g_BackgroundSpeed, true, Palmy::Transform2D(glm::vec2(-2.0, 0.0)));
 			m_Bird = std::make_unique<Bird>(birdTexture, BIRD_SPEED_DECLINE, false, Palmy::Transform2D(glm::vec2(0.5f,-0.5f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.25f)));
-			m_GameFinishedTexture = Palmy::ResourceManager::GetTexture2D(985712114);
 		}
 		~ExampleLayer(){}
 
 		virtual void OnUpdate() {
-			if (m_PipeGenerator->CheckForCollision(m_Bird->GetPosition()))
+			if (m_PipeManager->CheckForCollision(m_Bird->GetPosition()))
 			{
 				m_Renderer->RenderQuad(Palmy::Transform2D(), m_GameFinishedTexture, false);
 				return;
@@ -38,7 +44,8 @@ namespace Sandbox {
 			m_Renderer->RenderQuad(m_BackgroundLeft->GetRenderableData());
 			m_Renderer->RenderQuad(m_BackgroundRight->GetRenderableData());
 			m_Renderer->RenderQuad(m_Bird->GetRenderableData());
-			const std::array<Palmy::RenderableData, PipeGenerator::s_NumberOfPipes> pipesData = m_PipeGenerator->GetRenderableData();
+			m_PipeManager->UpdatePipes();
+			const std::array<Palmy::RenderableData, PipeManager::s_NumberOfPipes> pipesData = m_PipeManager->GetRenderableData();
 			for (auto pipe : pipesData)
 			{
 				m_Renderer->RenderQuad(pipe);
@@ -60,7 +67,7 @@ namespace Sandbox {
 		std::unique_ptr<Background> m_BackgroundLeft;
 		std::unique_ptr<Background> m_BackgroundRight;
 		std::unique_ptr<Bird> m_Bird;
-		std::unique_ptr<PipeGenerator> m_PipeGenerator;
+		std::unique_ptr<PipeManager> m_PipeManager;
 		std::shared_ptr<Palmy::Texture2D> m_GameFinishedTexture;
 	};
 

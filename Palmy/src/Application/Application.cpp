@@ -20,7 +20,7 @@ namespace Palmy {
 	}
     void Application::Run()
     {
-		while (m_Window->ShouldWindowClose())
+		while (!m_Window->ShouldWindowClose())
 		{
 			ResourceManager::CheckForResources();
 			m_Window->BeginFrame();

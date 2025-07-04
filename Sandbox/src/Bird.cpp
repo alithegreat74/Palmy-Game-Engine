@@ -1,5 +1,4 @@
 #include "Bird.h"
-#include "Bird.h"
 
 namespace Sandbox {
 	Bird::Bird(std::shared_ptr<Palmy::Texture2D> texture, float speedDecline, bool fitScreen)

@@ -14,10 +14,10 @@ namespace Sandbox {
 			m_Transform = transform;
 		}
 		virtual Palmy::RenderableData GetRenderableData()override {
+			m_Transform.Position += glm::vec2(m_BackgroundSpeed * (float)Palmy::Time::s_DeltaTime,0.0f);
+
 			if (m_Transform.Position.x + m_BackgroundSpeed * (float)Palmy::Time::s_DeltaTime >= 2.0)
 				m_Transform.Position = { -2.0,0.0 };
-
-			m_Transform.Position += glm::vec2(m_BackgroundSpeed * (float)Palmy::Time::s_DeltaTime,0.0f);
 			return Palmy::Renderable::GetRenderableData();
 		}
 	private:

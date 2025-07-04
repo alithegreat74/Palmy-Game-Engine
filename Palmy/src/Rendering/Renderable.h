@@ -18,15 +18,14 @@ namespace Palmy
 	class Renderable {
 	public:
 		Renderable(std::shared_ptr<Texture2D> texture, bool fitScreen)
-			:m_Texture(texture), m_FitScreen(fitScreen)
+			:m_Texture(texture), m_FitScreen(fitScreen), m_Transform(), m_SubTextureInfo()
 		{
-			m_Transform = Transform2D();
-			m_SubTextureInfo = SubTextureInfo();
 		}
+		virtual ~Renderable() = default;
 		virtual RenderableData GetRenderableData()
 		{
 			return Palmy::RenderableData(m_Texture, m_Transform, m_SubTextureInfo, m_FitScreen);
-		}
+		};	
 	protected:
 		bool m_FitScreen;
 		std::shared_ptr<Texture2D> m_Texture;

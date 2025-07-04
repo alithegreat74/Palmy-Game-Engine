@@ -48,7 +48,7 @@ namespace Palmy {
 		virtual void BeginFrame()override;
 		virtual void EndFrame()override;
 		static bool OnWindowResize(const WindowResizedEvent& e);
-		virtual bool ShouldWindowClose() { return !glfwWindowShouldClose(m_Window); }
+		virtual bool ShouldWindowClose() { return glfwWindowShouldClose(m_Window); }
 		virtual void* GetWindowContext()override{return m_Window;}
 	private:
 		struct WindowData
