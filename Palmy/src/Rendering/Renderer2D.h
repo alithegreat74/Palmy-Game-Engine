@@ -8,7 +8,7 @@
 #include "Buffers.h"
 #include <unordered_map>
 #include "../Rendering/Camera.h"
-
+#include "Renderable.h"
 namespace Palmy {
 	constexpr size_t BATCH_SIZE = 100;
 	constexpr size_t QUAD_VERTEX_SIZE = 6;
@@ -31,7 +31,8 @@ namespace Palmy {
 	class Renderer2D {
 	public:
 		Renderer2D(float windowWidth, float windowHeight);
-		void RenderQuad(const Transform2D&, std::shared_ptr<Texture2D>);
+		void RenderQuad(const RenderableData& renderable);
+		void RenderQuad(const Transform2D&, std::shared_ptr<Texture2D>, bool fitScreen = false);
 		void RenderQuad(const Transform2D&, std::shared_ptr<Texture2D>, const SubTextureInfo& subTextureInfo);
 		void RenderQuad(const Transform2D&, const glm::vec4 color);
 		inline int32_t SetTextureNumber(const std::shared_ptr<Texture2D>& texture);

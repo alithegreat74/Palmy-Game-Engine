@@ -26,13 +26,18 @@ namespace Palmy {
 			m_Window->BeginFrame();
 			m_Renderer->StartDraw();
 			ImGuiContext::BeginFrame();
-			Timer::Calculate();
+			Time::Calculate();
 			for (auto it = m_LayerStack->rbegin(); it < m_LayerStack->rend(); it++) {
 				auto layer = *it;
 				layer->OnUpdate();
 			}
-			ImGuiContext::EndFrame();
+			{
+				ImGui::Begin("Statistics");
+				ImGui::Text("Frame rate is: %f", (1 / Time::s_DeltaTime));
+				ImGui::End();
+			}
 			m_Renderer->DrawBatch();
+			ImGuiContext::EndFrame();
 			m_Window->EndFrame();
 		}
 	}

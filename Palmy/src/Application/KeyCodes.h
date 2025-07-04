@@ -2,6 +2,11 @@
 
 namespace Palmy
 {
+	enum KeyState 
+	{
+		IDLE = 0,
+		PRESSED = 1
+	};
 	enum KeyCode
 	{
 		KEY_SPACE = 32,
