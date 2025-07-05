@@ -11,7 +11,13 @@ namespace Palmy {
 		Transform2D(glm::vec2 position = { 0.0,0.0 }, glm::vec3 rotation = { 0.0, 0.0, 0.0 }, glm::vec3 scale = { 1.0,1.0,1.0 }) 
 			:Position(position),Rotation(rotation),Scale(scale)
 		{}
-		const glm::mat4& GetTransformMatrix()const
+		Transform2D(glm::vec2 position)
+			:Position(position), Rotation({0.0,0.0,0.0}), Scale({1.0,1.0,1.0})
+		{}
+		Transform2D()
+			:Position({0.0,0.0}), Rotation({0.0,0.0,0.0}), Scale({1.0,1.0,1.0})
+		{}
+		const glm::mat4 GetTransformMatrix()const
 		{
 			glm::mat4 transformMatrix(1.0);
 			transformMatrix = glm::translate(transformMatrix, glm::vec3(Position, 0.0));

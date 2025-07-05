@@ -12,11 +12,15 @@ namespace Palmy {
 		:m_LookUpFlag(true), m_MetaGenerationFunctions({ {"",FolderMeta}, {".png",TextureMeta},{".glsl",ShaderMeta},{".jpg",TextureMeta}})
 	{
 		LookUpFiles();
+#ifdef ENGINE_MODE
 		m_LookUpThread = std::thread(&AssetMetaGenerator::LookUpFilesAsync, this);
+#endif
 	}
 	AssetMetaGenerator::~AssetMetaGenerator() {
+#ifdef ENGINE_MODE
 		m_LookUpFlag.store(false);
 		m_LookUpThread.join();
+#endif
 	}
 	void AssetMetaGenerator::LookUpFiles()
 	{
