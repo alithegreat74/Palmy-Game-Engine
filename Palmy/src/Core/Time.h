@@ -1,19 +1,19 @@
 #pragma once
 #include <GLFW/glfw3.h>
 namespace Palmy {
-	class Timer {
+	class Time {
 	public:
-		Timer() = delete;
-		Timer(const Timer&) = delete;
-		Timer(Timer&&) = delete;
+		Time() = delete;
+		Time(const Time&) = delete;
+		Time(Time&&) = delete;
 		static void Calculate() {
-			Time = glfwGetTime();
-			DeltaTime = Time - s_PreviousTime;
-			s_PreviousTime = Time;
+			s_Time = glfwGetTime();
+			s_DeltaTime = s_Time - s_PreviousTime;
+			s_PreviousTime = s_Time;
 		}
 	public:
-		inline static double Time = 0;
-		inline static double DeltaTime = 0;
+		inline static double s_Time = 0;
+		inline static double s_DeltaTime = 0;
 	private:
 		inline static double s_PreviousTime = 0;
 	};

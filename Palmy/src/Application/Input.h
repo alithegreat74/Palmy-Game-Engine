@@ -11,7 +11,6 @@ namespace Palmy
 		Input() = delete;
 		Input(const Input&) = delete;
 		Input(Input&&) = delete;
-
 		static void Init(void* window);
 		//Keyboard inputs
 		static bool GetKeyDown(KeyCode keyCode);

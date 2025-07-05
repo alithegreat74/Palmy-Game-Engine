@@ -8,30 +8,37 @@
 
 namespace Palmy {
 	Renderer2D::Renderer2D(float windowWidth, float windowHeight)
-		:m_BatchData(),m_TextureIndex(0),
-		m_OrthographicCamera({0.0f,0.0f,1.0f},{0.0f,0.0f,-1.0f},-1.0f, 1.0f, 1.0f,-1.0f,0.1f,10.0f),
+		:m_BatchData(), m_TextureIndex(0),
+		m_OrthographicCamera({ 0.0f,0.0f,1.0f }, { 0.0f,0.0f,-1.0f }, -1.0f, 1.0f, 1.0f, -1.0f, 0.1f, 10.0f),
 		m_CameraController(m_OrthographicCamera),
-		m_WindowSize({windowWidth, windowHeight})
+		m_WindowSize({ windowWidth, windowHeight })
 	{
 		m_Shader = std::make_unique<ShaderProgram>(*ResourceManager::GetShader(2204820834), *ResourceManager::GetShader(4187305228));
 		m_Shader->Bind();
 		m_VertexArray = std::make_unique<VertexArray>();
 		m_VertexArray->Bind();
-		m_VertexBuffer = std::make_unique<VertexBuffer>(sizeof(QuadVertexData)*BATCH_SIZE,
-			std::initializer_list<BufferLayoutElement>({ 
+		m_VertexBuffer = std::make_unique<VertexBuffer>(sizeof(QuadVertexData) * BATCH_SIZE,
+			std::initializer_list<BufferLayoutElement>({
 				{ GL_FLOAT, 4, 4 * sizeof(float),false },
 				{ GL_FLOAT, 2, 2 * sizeof(float),false },
 				{ GL_FLOAT, 4, 4 * sizeof(float),false },
 				{ GL_INT, 1, sizeof(int32_t),true }
-			}));
+				}));
 		m_VertexBuffer->Unbind();
 		m_VertexArray->Unbind();
 	}
-	void Renderer2D::RenderQuad(const Transform2D& transform, std::shared_ptr<Texture2D> texture) 
+	void Renderer2D::RenderQuad(const RenderableData& renderable)
+	{
+		if (renderable.SubTexture.Size != glm::vec2{0.0f, 0.0f})
+			RenderQuad(renderable.Transform, renderable.Texture, renderable.SubTexture);
+		else
+			RenderQuad(renderable.Transform, renderable.Texture, renderable.FitScreen);
+	}
+	void Renderer2D::RenderQuad(const Transform2D& transform, std::shared_ptr<Texture2D> texture, bool fitScreen)
 	{
 		SubTextureInfo subTextureInfo{
 			glm::vec2(0.0f,0.0f),
-			glm::vec2(texture->GetWidth(), texture->GetHeight())
+			glm::vec2(!fitScreen ? texture->GetWidth() : m_WindowSize.x * 2, !fitScreen ? texture->GetHeight() : m_WindowSize.y * 2)
 		};
 		RenderQuad(transform, texture, subTextureInfo);
 	}
@@ -126,12 +133,12 @@ namespace Palmy {
 	QuadVertexData::QuadVertexData()
 	{
 		VertexDatas = {
-			VertexData{glm::vec4(-0.5f,-0.5f,0.0f,1.0f), glm::vec2(0.0f, 0.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1},
-			VertexData{glm::vec4( 0.5f,-0.5f,0.0f,1.0f), glm::vec2(1.0f, 0.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1},
-			VertexData{glm::vec4( 0.5f, 0.5f,0.0f,1.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1},
-			VertexData{glm::vec4( 0.5f, 0.5f,0.0f,1.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1},
-			VertexData{glm::vec4(-0.5f, 0.5f,0.0f,1.0f), glm::vec2(0.0f, 1.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1},
-			VertexData{glm::vec4(-0.5f,-0.5f,0.0f,1.0f), glm::vec2(0.0f, 0.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1}
+			VertexData{glm::vec4(-1.0f,-1.0f,0.0f,1.0f), glm::vec2(0.0f, 0.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1},
+			VertexData{glm::vec4(1.0f,-1.0f,0.0f,1.0f), glm::vec2(1.0f, 0.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1},
+			VertexData{glm::vec4(1.0f, 1.0f,0.0f,1.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1},
+			VertexData{glm::vec4(1.0f, 1.0f,0.0f,1.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1},
+			VertexData{glm::vec4(-1.0f, 1.0f,0.0f,1.0f), glm::vec2(0.0f, 1.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1},
+			VertexData{glm::vec4(-1.0f,-1.0f,0.0f,1.0f), glm::vec2(0.0f, 0.0f), glm::vec4(1.0f,1.0f,1.0f,1.0f), -1}
 		};
 	}
 }
