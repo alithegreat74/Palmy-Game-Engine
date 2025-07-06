@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 #include "../Utility/StringUtility.h"
 
+
 namespace Palmy {
 	constexpr const char* ASSETS_PATH = "Assets";
 	constexpr uint16_t LOOKUP_DELAY = 1000;
@@ -12,15 +13,11 @@ namespace Palmy {
 		:m_LookUpFlag(true), m_MetaGenerationFunctions({ {"",FolderMeta}, {".png",TextureMeta},{".glsl",ShaderMeta},{".jpg",TextureMeta}})
 	{
 		LookUpFiles();
-#ifdef ENGINE_MODE
 		m_LookUpThread = std::thread(&AssetMetaGenerator::LookUpFilesAsync, this);
-#endif
 	}
 	AssetMetaGenerator::~AssetMetaGenerator() {
-#ifdef ENGINE_MODE
 		m_LookUpFlag.store(false);
 		m_LookUpThread.join();
-#endif
 	}
 	void AssetMetaGenerator::LookUpFiles()
 	{

@@ -4,6 +4,7 @@
 #include "../Rendering/Texture.h"
 #include "../Rendering/Shader.h"
 #include "AssetMetaGenerator.h"
+#include "../WindowsSpecific/WindowsAssetMetaGenerator.h"
 
 namespace Palmy
 {
@@ -21,7 +22,11 @@ namespace Palmy
 			std::unordered_map<uint32_t, std::shared_ptr<Shader>>();
 		inline static std::unordered_map<uint32_t, std::shared_ptr<Texture2D>> s_Textures =
 			std::unordered_map<uint32_t, std::shared_ptr<Texture2D>>();
+#ifdef WINDOWS
+		WindowsAssetMetaGenerator m_AssetMetaGenerator;
+#else
 		AssetMetaGenerator m_AssetMetaGenerator;
+#endif
 		inline static void* s_MainWindow = nullptr;
 	};
 }

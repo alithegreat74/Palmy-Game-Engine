@@ -30,7 +30,20 @@ namespace Palmy {
 	Texture2D::Texture2D(const char* filePath, uint32_t resourceId)
 		:Texture(resourceId)
 	{
-		Update(filePath);
+		TextureInfo info = TextureLoader::LoadTexture(filePath);
+		m_Width = info.Width;
+		m_Height = info.Height;
+
+		int format = info.ChannelNumber == 3 ? GL_RGB : GL_RGBA;
+		Bind();
+		glTexImage2D(GL_TEXTURE_2D, 0, format, info.Width, info.Height, 0, format, GL_UNSIGNED_BYTE, info.Data);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		Unbind();
+		TextureLoader::UnloadTexture(info.Data);
 	}
 
 	void Texture2D::Bind() const
@@ -51,16 +64,10 @@ namespace Palmy {
 		TextureInfo info = TextureLoader::LoadTexture(filepath);
 		m_Width = info.Width;
 		m_Height = info.Height;
-
 		int format = info.ChannelNumber == 3 ? GL_RGB : GL_RGBA;
 		Bind();
-		glTexImage2D(GL_TEXTURE_2D, 0, format, info.Width, info.Height, 0, format, GL_UNSIGNED_BYTE, info.Data);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, info.Width, info.Height, format, GL_UNSIGNED_BYTE, info.Data);
 		glGenerateMipmap(GL_TEXTURE_2D);
-		Unbind();
 		TextureLoader::UnloadTexture(info.Data);
 	}
 }

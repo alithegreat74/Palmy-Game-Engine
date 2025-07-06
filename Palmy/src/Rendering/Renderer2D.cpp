@@ -48,7 +48,7 @@ namespace Palmy {
 			DrawBatch();
 		glm::mat4 transformMatrix = transform.GetTransformMatrix();
 		QuadVertexData vertexData;
-		int32_t textureNumber = SetTextureNumber(texture);
+		int32_t textureNumber = GetTextureNumber(texture);
 		SetTextureQuadPosition(vertexData, subTextureInfo);
 		for (size_t i = 0; i < QUAD_VERTEX_SIZE; i++)
 		{
@@ -78,7 +78,7 @@ namespace Palmy {
 		m_Shader->Bind();
 		m_Shader->ChangeUniform("uCameraMatrix", m_OrthographicCamera.GetCameraMatrix());
 	}
-	int32_t Renderer2D::SetTextureNumber(const std::shared_ptr<Texture2D>& texture)
+	int32_t Renderer2D::GetTextureNumber(const std::shared_ptr<Texture2D>& texture)
 	{
 		auto textureIterator = m_TextureSet.find(texture);
 		if (textureIterator != m_TextureSet.end())
