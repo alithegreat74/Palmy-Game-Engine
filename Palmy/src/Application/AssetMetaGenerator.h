@@ -4,17 +4,18 @@
 #include <mutex>
 #include <functional>
 #include <filesystem>
+#include "../Utility/ThreadSafeQueue.h"
 namespace Palmy {
 	using AssetMetaGenerationFunction = std::function<void(const std::filesystem::directory_entry&)>;
 	class AssetMetaGenerator {
 	public:
 		AssetMetaGenerator();
-		~AssetMetaGenerator();
-	private:
+		virtual ~AssetMetaGenerator();
+	protected:
 		void LookUpFiles();
-		void LookUpFilesAsync();
+		virtual void LookUpFilesAsync();
 		AssetMetaGenerationFunction GetMetaGenerationFunction(const std::filesystem::directory_entry& file)const;
-	private:
+	protected:
 		std::thread m_LookUpThread;
 		std::atomic<bool> m_LookUpFlag;
 		std::unordered_map<std::string, AssetMetaGenerationFunction> m_MetaGenerationFunctions;

@@ -35,7 +35,7 @@ namespace Palmy {
 		void RenderQuad(const Transform2D&, std::shared_ptr<Texture2D>, bool fitScreen = false);
 		void RenderQuad(const Transform2D&, std::shared_ptr<Texture2D>, const SubTextureInfo& subTextureInfo);
 		void RenderQuad(const Transform2D&, const glm::vec4 color);
-		inline int32_t SetTextureNumber(const std::shared_ptr<Texture2D>& texture);
+		inline int32_t GetTextureNumber(const std::shared_ptr<Texture2D>& texture);
 		void StartDraw();
 		void DrawBatch();
 	private:
