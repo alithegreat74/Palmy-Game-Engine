@@ -14,8 +14,10 @@ namespace Palmy {
 		}
 		~WindowsAssetMetaGenerator()override
 		{
-			CancelIoEx(m_DirectoryHandle, NULL);
-			CloseHandle(m_DirectoryHandle);
+			if (m_DirectoryHandle != INVALID_HANDLE_VALUE) {
+				CancelIoEx(m_DirectoryHandle, NULL);
+				CloseHandle(m_DirectoryHandle);
+			}
 		}
 	protected:
 		virtual void LookUpFilesAsync()override;

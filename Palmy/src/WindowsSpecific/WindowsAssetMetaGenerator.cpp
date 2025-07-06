@@ -7,9 +7,10 @@
 namespace Palmy {
 	constexpr const char* ASSETS_PATH = "Assets";
 	constexpr std::chrono::milliseconds FILE_CHANGE_DEBOUNCE_MILLISECOND(500);
+	constexpr size_t BUFFER_SIZE = 1024;
 	void WindowsAssetMetaGenerator::LookUpFilesAsync()
 	{
-		m_DirectoryHandle = CreateFile(
+		m_DirectoryHandle = CreateFileA(
 			ASSETS_PATH,
 			FILE_LIST_DIRECTORY,
 			FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
@@ -19,7 +20,7 @@ namespace Palmy {
 			NULL
 		);
 		ENGINE_ASSERT((m_DirectoryHandle != INVALID_HANDLE_VALUE), "Couldn't create a handle for directory: {0}", ASSETS_PATH);
-		char buffer[1024];
+		char buffer[BUFFER_SIZE];
 		DWORD bytesReturned;
 		using namespace std::filesystem;
 		while (m_LookUpFlag)

@@ -3,8 +3,11 @@
 #include <unordered_map>
 #include "../Rendering/Texture.h"
 #include "../Rendering/Shader.h"
+#ifndef WINDOWS
 #include "AssetMetaGenerator.h"
+#else
 #include "../WindowsSpecific/WindowsAssetMetaGenerator.h"
+#endif
 
 namespace Palmy
 {
