@@ -10,7 +10,7 @@
 namespace Sandbox {
 
 	constexpr float BIRD_FLAP_SPEED = 2.0f;
-	constexpr float BIRD_SPEED_DECLINE = 0.1f;
+	constexpr float BIRD_SPEED_DECLINE = 7.0f;
 	float g_BackgroundSpeed = 1.0f;
 	float PIPE_SPEED = 0.8f;
 

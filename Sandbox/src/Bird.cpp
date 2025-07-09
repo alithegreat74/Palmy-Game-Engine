@@ -12,7 +12,7 @@ namespace Sandbox {
 	Palmy::RenderableData Bird::GetRenderableData()
 	{
 		m_Transform.Position += glm::vec2(0, m_VerticalSpeed)* (float)Palmy::Time::s_DeltaTime;
-		m_VerticalSpeed -= m_SpeedDecline;
+		m_VerticalSpeed -= m_SpeedDecline * (float)Palmy::Time::s_DeltaTime;
 		return Palmy::Renderable::GetRenderableData();
 	}
 	void Bird::SetVerticalSpeed(float speed)
