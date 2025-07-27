@@ -18,10 +18,6 @@ namespace Sandbox {
 		virtual void OnEvent(Palmy::Event& event)override {
 
 		}
-		bool KeyWasPressed(const Palmy::KeyPressedEvent& event)
-		{
-
-		}
 
 	private:
 
