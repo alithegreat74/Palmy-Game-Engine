@@ -7,7 +7,7 @@ namespace Sandbox {
 
 	class EditorLayer :public Palmy::Layer {
 	public:
-		EditorLayer(const std::string& layerName = "Editor Layer") :
+		EditorLayer(const std::string& layerName) :
 			Palmy::Layer(layerName)
 		{
 		}
@@ -32,7 +32,7 @@ namespace Sandbox {
 		EditorApp() :
 			Palmy::Application("Palmy Editor")
 		{
-
+			AttachLayer(std::make_shared<EditorLayer>("Editor Layer"));
 		}
 	};
 }
