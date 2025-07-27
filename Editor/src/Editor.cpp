@@ -1,7 +1,6 @@
 #include <memory>
 #include "Palmy.h"
 #include <./src/Core/EntryPoint.h>
-#include <Palmy.h>
 #include <fstream>
 
 namespace Sandbox {
