@@ -13,14 +13,16 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 
 # Add subdirectories
+add_subdirectory(Thirdparty/glm)
 add_subdirectory(Palmy)
 add_subdirectory(Sandbox)
-add_subdirectory(Thirdparty/glm)
+add_subdirectory(Editor)
 
 # Set the startup project for Visual Studio
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Sandbox)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Editor)
 
 # Link Sandbox to the Engine library
 target_link_libraries(Engine PRIVATE glm)
 target_link_libraries(Sandbox PRIVATE Engine glm)
+target_link_libraries(Editor PRIVATE Engine glm)
 
